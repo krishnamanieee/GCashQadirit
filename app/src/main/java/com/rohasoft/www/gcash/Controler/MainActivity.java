@@ -23,6 +23,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.rohasoft.www.gcash.DataBase.UserLocalStore;
+import com.rohasoft.www.gcash.Modal.User;
 import com.rohasoft.www.gcash.R;
 
 import org.json.JSONException;
@@ -38,10 +40,9 @@ public class MainActivity extends AppCompatActivity {
 
     TextView result,mTextViewResponse;
     Button mButtonGet;
-    private static final String URL_DATA = "http://app.qadirit.com/fetchdata.php";
-
     public static final int REQUEST_CODE = 100;
-    public static final int PERMISSION_REQUEST = 200;
+
+    UserLocalStore userLocalStore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,55 +54,11 @@ public class MainActivity extends AppCompatActivity {
         result = (TextView) findViewById(R.id.result);
         mTextViewResponse=(TextView) findViewById(R.id.response);
         mButtonGet=(Button) findViewById(R.id.getcash);
-
-        mButtonGet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                fetchData();
-            }
-        });
-
-    }
-    private void fetchData() {
-        final ProgressDialog progressDialog=new ProgressDialog(getApplicationContext());
-        progressDialog.setMessage("loading Data....");
-        progressDialog.show();
+        userLocalStore=new UserLocalStore(this);
+        User user=userLocalStore.getLoggedUser();
+        result.setText(user.getShop());
 
 
-        StringRequest stringRequest=new StringRequest(Request.Method.POST,
-                URL_DATA,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        progressDialog.dismiss();
-
-                        try {
-                            JSONObject jsonObject=new JSONObject(response);
-                            mTextViewResponse.setText(response);
-                            Log.e("JSONObject",response);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                    }
-                }){
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-
-                params.put("card", "7812369452489637");
-                return params;
-            }
-        };
-
-        RequestQueue requestQueue= Volley.newRequestQueue(getApplicationContext());
-        requestQueue.add(stringRequest);
     }
 
     @Override

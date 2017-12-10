@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -59,14 +60,19 @@ public class QRScanActivity extends AppCompatActivity  implements ZXingScannerVi
 
         if (rawResult.toString().length() == 16){
 
-            Intent intent = new Intent();
+           /* Intent intent = new Intent();
             intent.putExtra("barcode", rawResult.getText());
             setResult(RESULT_OK, intent);
-            finish();
+            finish();*/
+           Intent intent=new Intent(getApplicationContext(),CoupenAddActivity.class);
+           intent.putExtra("barcode", rawResult.getText());
+
+           startActivity(intent);
 
 
         }
         else {
+        //    Toast.makeText(getApplicationContext(),rawResult.toString(),Toast.LENGTH_SHORT).show();
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Oops..:( ");
             builder.setMessage(" Invalid QR Code please try another code");

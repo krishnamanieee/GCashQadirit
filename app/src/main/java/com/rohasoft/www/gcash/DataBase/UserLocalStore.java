@@ -20,20 +20,28 @@ public class UserLocalStore {
     }
     public void storeUserData(User user){
         SharedPreferences.Editor spEditor=userlocalDatabase.edit();
+        spEditor.putString("shopId",user.getShopId());
         spEditor.putString("username",user.getUsername());
         spEditor.putString("password",user.getPassword());
-        spEditor.putString("name",user.getShone());
+        spEditor.putString("shop",user.getShop());
         spEditor.putString("phone",user.getPhone());
+        spEditor.putString("partnerCode",user.getPartnerCode());
+        spEditor.putString("address1",user.getAddress1());
+        spEditor.putString("address2",user.getAddress2());
 
         spEditor.commit();
     }
     public User getLoggedUser(){
+        String shopId=userlocalDatabase.getString("shopId","");
         String username=userlocalDatabase.getString("username","");
         String password=userlocalDatabase.getString("password","");
-        String name=userlocalDatabase.getString("name","");
+        String shop=userlocalDatabase.getString("shop","");
         String phone=userlocalDatabase.getString("phone","");
+        String partnerCode=userlocalDatabase.getString("partnerCode","");
+        String address1=userlocalDatabase.getString("address1","");
+        String address2=userlocalDatabase.getString("address2","");
 
-        User storedUser=new User(username,password,name,phone);
+        User storedUser=new User(shopId,username,password,shop,phone,partnerCode,address1,address2);
         return storedUser;
     }
 }

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.rohasoft.www.gcash.DataBase.UserLocalStore;
 import com.rohasoft.www.gcash.Modal.GetUserCallBack;
 import com.rohasoft.www.gcash.Modal.ServerRequest;
 import com.rohasoft.www.gcash.Modal.User;
@@ -17,7 +18,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText mEditTextEmail, mEditTextPassword;
     private Button mButtonLogin;
-    String email, pass;
+    UserLocalStore userLocalStore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
         mEditTextEmail = (EditText) findViewById(R.id.login_email_edit_text);
         mEditTextPassword = (EditText) findViewById(R.id.login_password_edit_text);
         mButtonLogin = (Button) findViewById(R.id.login_login_button);
+        userLocalStore=new UserLocalStore(this);
         
         logIn();
 
@@ -65,6 +67,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void logUserIn(User returedUser) {
+        userLocalStore.storeUserData(returedUser);
+
+
         startActivity(new Intent(getApplicationContext(),MainActivity.class));
     }
 
