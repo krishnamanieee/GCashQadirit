@@ -130,6 +130,7 @@ public class ServerRequest {
             ArrayList<NameValuePair> dataToSend = new ArrayList<>();
 
             dataToSend.add(new BasicNameValuePair("otp", user.card));
+            dataToSend.add(new BasicNameValuePair("otp", user.card));
             HttpParams httpRequestParams = new BasicHttpParams();
             HttpConnectionParams.setConnectionTimeout(httpRequestParams, CONNECTION_TIMEOUT);
             HttpConnectionParams.setSoTimeout(httpRequestParams, CONNECTION_TIMEOUT);
