@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.rohasoft.www.gcash.DataBase.UserLocalStore;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -20,7 +22,10 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Ayothi selvam on 12/7/2017.
@@ -44,6 +49,10 @@ public class ServerRequest {
     public void fetchUserDataInBackground(User user, GetUserCallBack callBack) {
         progressDialog.show();
         new FetchUserDataAsyncTask(user, callBack).execute();
+    }
+    public void storePointInBackground(User user, GetUserCallBack callBack) {
+        progressDialog.show();
+        new StorePointAsyncTask(user, callBack).execute();
     }
 
     public void fetchCardDataInBackground(User user, GetUserCallBack callBack) {
@@ -129,14 +138,14 @@ public class ServerRequest {
         protected User doInBackground(Void... voids) {
             ArrayList<NameValuePair> dataToSend = new ArrayList<>();
 
-            dataToSend.add(new BasicNameValuePair("otp", user.card));
-            dataToSend.add(new BasicNameValuePair("otp", user.card));
+            dataToSend.add(new BasicNameValuePair("otp", user.otp));
+            dataToSend.add(new BasicNameValuePair("phone", user.phone));
             HttpParams httpRequestParams = new BasicHttpParams();
             HttpConnectionParams.setConnectionTimeout(httpRequestParams, CONNECTION_TIMEOUT);
             HttpConnectionParams.setSoTimeout(httpRequestParams, CONNECTION_TIMEOUT);
 
             HttpClient client = new DefaultHttpClient(httpRequestParams);
-            HttpPost post = new HttpPost(SERVER_ADDRESS + "otpconfrim.php");
+            HttpPost post = new HttpPost(SERVER_ADDRESS + "otp.php");
 
             User returnedUser = null;
 
@@ -151,6 +160,73 @@ public class ServerRequest {
                 if (jobject.length() == 0) {
                     returnedUser = null;
                 } else {
+                    int i =Integer.parseInt(jobject.getString("invoice"));
+                    UserLocalStore userLocalStore=new UserLocalStore(mContext);
+                    userLocalStore.storeOldInvoice(String.valueOf(i));
+                   returnedUser =new User(i);
+
+
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return returnedUser;
+        }
+
+        @Override
+        protected void onPostExecute(User user) {
+            progressDialog.dismiss();
+            getUserCallBack.Done(user);
+            super.onPostExecute(user);
+        }
+    }
+    private class StorePointAsyncTask extends AsyncTask<Void, Void, User> {
+        User user;
+        GetUserCallBack getUserCallBack;
+
+        public StorePointAsyncTask(User user, GetUserCallBack getUserCallBack) {
+            this.user = user;
+            this.getUserCallBack = getUserCallBack;
+        }
+
+        @Override
+        protected User doInBackground(Void... voids) {
+            ArrayList<NameValuePair> dataToSend = new ArrayList<>();
+            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            Date date = new Date();
+            String date1=dateFormat.format(date);
+
+            dataToSend.add(new BasicNameValuePair("partnercode", user.partnerCode));
+            dataToSend.add(new BasicNameValuePair("customercard", user.card));
+            dataToSend.add(new BasicNameValuePair("invoice", user.invoice));
+            dataToSend.add(new BasicNameValuePair("amount", user.amonut));
+            dataToSend.add(new BasicNameValuePair("date", "144"));
+            dataToSend.add(new BasicNameValuePair("totallimit", user.totallimit));
+            HttpParams httpRequestParams = new BasicHttpParams();
+            HttpConnectionParams.setConnectionTimeout(httpRequestParams, CONNECTION_TIMEOUT);
+            HttpConnectionParams.setSoTimeout(httpRequestParams, CONNECTION_TIMEOUT);
+
+            HttpClient client = new DefaultHttpClient(httpRequestParams);
+            HttpPost post = new HttpPost(SERVER_ADDRESS + "storepoint.php");
+
+            User returnedUser = null;
+
+            try {
+                post.setEntity(new UrlEncodedFormEntity(dataToSend));
+                HttpResponse httpResponse = client.execute(post);
+
+                HttpEntity entity = httpResponse.getEntity();
+                String result = EntityUtils.toString(entity);
+                JSONObject jobject = new JSONObject(result);
+
+                if (jobject.length() == 0) {
+                    returnedUser = null;
+                } else {
+                   returnedUser =new User(user.partnerCode);
+
+
 
                 }
             } catch (Exception e) {
@@ -215,7 +291,8 @@ public class ServerRequest {
                     String partnerCode = jobject.getString("partnercode");
                     String address1 = jobject.getString("address1");
                     String address2 = jobject.getString("address2");
-                    returnedUser = new User(shopId,username, password, shop, phone,partnerCode,address1,address2);
+                    String city = jobject.getString("city");
+                    returnedUser = new User(shopId,username, password, shop, phone,partnerCode,address1,address2,city);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -231,4 +308,6 @@ public class ServerRequest {
             super.onPostExecute(user);
         }
     }
+
+
 }

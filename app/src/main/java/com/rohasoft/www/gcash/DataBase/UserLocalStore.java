@@ -28,8 +28,21 @@ public class UserLocalStore {
         spEditor.putString("partnerCode",user.getPartnerCode());
         spEditor.putString("address1",user.getAddress1());
         spEditor.putString("address2",user.getAddress2());
+        spEditor.putString("city",user.getCity());
 
         spEditor.commit();
+    }
+    public void storeOldInvoice(String s){
+        SharedPreferences.Editor spEditor=userlocalDatabase.edit();
+        spEditor.putString("oldinvoice",s);
+
+        spEditor.commit();
+
+    }
+
+    public String getOldInvoice(){
+        String oldinvoice=userlocalDatabase.getString("oldinvoice","");
+        return oldinvoice;
     }
     public User getLoggedUser(){
         String shopId=userlocalDatabase.getString("shopId","");
@@ -40,8 +53,9 @@ public class UserLocalStore {
         String partnerCode=userlocalDatabase.getString("partnerCode","");
         String address1=userlocalDatabase.getString("address1","");
         String address2=userlocalDatabase.getString("address2","");
+        String city=userlocalDatabase.getString("city","");
 
-        User storedUser=new User(shopId,username,password,shop,phone,partnerCode,address1,address2);
+        User storedUser=new User(shopId,username,password,shop,phone,partnerCode,address1,address2,city);
         return storedUser;
     }
 }

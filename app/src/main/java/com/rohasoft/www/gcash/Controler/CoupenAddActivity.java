@@ -1,36 +1,21 @@
 package com.rohasoft.www.gcash.Controler;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.rohasoft.www.gcash.Modal.GetUserCallBack;
 import com.rohasoft.www.gcash.Modal.ServerRequest;
 import com.rohasoft.www.gcash.Modal.User;
 import com.rohasoft.www.gcash.R;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 
@@ -40,32 +25,34 @@ import java.util.Random;
 
 public class CoupenAddActivity extends AppCompatActivity {
 
-    TextView mTextViewQrcode,mTextViewName,mTextViewPhone,mTextViewCity,mTextViewPincode,mTextViewReScan;
+    TextView mTextViewQrcode, mTextViewName, mTextViewPhone, mTextViewCity, mTextViewPincode, mTextViewReScan;
     EditText mEditTextAddPoint;
     Button mButton;
+    int randomNumber, tot=0, temp=0,invoice=0;
+    String ponit;
 
-    private static final String URL_DATA = "http://app.qadirit.com/fetchdata.php";
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inputscreen);
         mTextViewQrcode = (TextView) findViewById(R.id.inputscreen_cardno_textview);
-        mTextViewName=(TextView) findViewById(R.id.inputscreen_name_textview);
-        mTextViewPhone=(TextView) findViewById(R.id.inputscreen_phone_textview);
-        mTextViewCity=(TextView) findViewById(R.id.inputscreen_city_textview);
-        mTextViewPincode=(TextView) findViewById(R.id.inputscreen_pincode_textview);
-        mTextViewReScan=(TextView) findViewById(R.id.inputscreen_rescan_textview);
-        mEditTextAddPoint=(EditText) findViewById(R.id.inputscreen_add_point_textview);
+        mTextViewName = (TextView) findViewById(R.id.inputscreen_name_textview);
+        mTextViewPhone = (TextView) findViewById(R.id.inputscreen_phone_textview);
+        mTextViewCity = (TextView) findViewById(R.id.inputscreen_city_textview);
+        mTextViewPincode = (TextView) findViewById(R.id.inputscreen_pincode_textview);
+        mTextViewReScan = (TextView) findViewById(R.id.inputscreen_rescan_textview);
+        mEditTextAddPoint = (EditText) findViewById(R.id.inputscreen_add_point_textview);
 
-        mButton=(Button) findViewById(R.id.inputscreen_submit_button);
+        mButton = (Button) findViewById(R.id.inputscreen_submit_button);
         String qrValue = getIntent().getExtras().getString("barcode");
         if (qrValue.length() != 0) {
             mTextViewQrcode.setText(qrValue);
-            Log.e("TAG",qrValue);
+            Log.e("TAG", qrValue);
         }
 
-        User  user=new User(mTextViewQrcode.getText().toString());
+        final User user = new User(mTextViewQrcode.getText().toString());
         fetchData(user);
 
         mTextViewReScan.setOnClickListener(new View.OnClickListener() {
@@ -79,35 +66,68 @@ public class CoupenAddActivity extends AppCompatActivity {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String ponit=mEditTextAddPoint.getText().toString();
+                ponit = mEditTextAddPoint.getText().toString();
 
-                if (ponit.length() > 0 && ponit.length() <6){
+                if (ponit.length() > 0 && ponit.length() < 6) {
 
-                    Random r = new Random();
-                    int randomNumber = r.nextInt(9999);
-                    String s=String.valueOf(randomNumber);
-                    Toast.makeText(getApplicationContext(),""+randomNumber,Toast.LENGTH_SHORT).show();
-                    Intent intent=new Intent(getApplicationContext(),OTPConfrimActivity.class);
-                    intent.putExtra("otp",randomNumber);
-                    startActivity(intent);
+                    temp = Integer.parseInt(mEditTextAddPoint.getText().toString());
+                  if (temp <= tot) {
+
+                        Random r = new Random();
+                        randomNumber = r.nextInt(9999);
+
+                        int i=tot-temp;
+
+                    //  Toast.makeText(getApplicationContext(),""+temp+"/"+tot+"54///" +i,Toast.LENGTH_SHORT).show();
+
+                        User user1 = new User(user.getShop(), mTextViewPhone.getText().toString(), String.valueOf(randomNumber));
+
+                        sendOtp(user1);
+
+
+                    } else {
+                        Toast.makeText(getApplicationContext(), "out limit please enter correctly", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
+
+            }
+        });
+
+    }
+
+    private void sendOtp(User user) {
+        ServerRequest serverRequest = new ServerRequest(this);
+        serverRequest.sendOtpInBackground(user, new GetUserCallBack() {
+            @Override
+            public void Done(User returedUser) {
+
+                    Intent intent = new Intent(getApplicationContext(), OTPConfrimActivity.class);
+                    intent.putExtra("otp", randomNumber);
+                    int resultAmt=tot-temp;
+                    intent.putExtra("total", resultAmt);
+                    intent.putExtra("amt", temp);
+                    intent.putExtra("card", mTextViewQrcode.getText().toString());
+
+                    startActivity(intent);
+
+
             }
         });
     }
 
 
-
     private void fetchData(User user) {
 
-        ServerRequest serverRequest=new ServerRequest(this);
+        ServerRequest serverRequest = new ServerRequest(this);
         serverRequest.fetchCardDataInBackground(user, new GetUserCallBack() {
             @Override
             public void Done(User returedUser) {
-                if (returedUser == null){
+                if (returedUser == null) {
                     showErrorMessage();
-                }else {
-                    CardIn(returedUser );
-                    Toast.makeText(getApplicationContext(),""+returedUser,Toast.LENGTH_SHORT).show();
+                } else {
+                    CardIn(returedUser);
+                  //  Toast.makeText(getApplicationContext(), "" + returedUser, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -121,6 +141,9 @@ public class CoupenAddActivity extends AppCompatActivity {
         mTextViewCity.setText(returedUser.getCity());
         mTextViewPincode.setText(returedUser.getPincode());
         mTextViewQrcode.setText(returedUser.getCard());
+        tot=Integer.parseInt(returedUser.getTotallimit());
+      //  invoice=Integer.parseInt(returedUser.getInvoice());
+       //Toast.makeText(getApplicationContext(),returedUser.getInvoice(),Toast.LENGTH_SHORT).show();
     }
 
     private void showErrorMessage() {

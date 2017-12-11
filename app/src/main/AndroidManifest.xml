@@ -33,6 +33,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Controler.LoginActivity" />
         <activity android:name=".Controler.OTPConfrimActivity"/>
+        <activity android:name=".Controler.SuccessActivity"/>
     </application>
 
 </manifest>

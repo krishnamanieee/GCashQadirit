@@ -6,79 +6,205 @@ package com.rohasoft.www.gcash.Modal;
 
 public class User {
 
-    String username,password,shop,phone,card,city,name,pincode, id, totallimit, partnerCode, shopId;
+    String username, password, shop, phone, card, city, name, pincode, id, totallimit, partnerCode, shopId;
 
-    String address1,address2;
+    String address1, address2;
+    String otp,invoice, amonut, tr;
+
+    int oldinvoice;
+
+    public User(String card, String partnerCode, String invoice, String amonut, String totallimit) {
+        this.card = card;
+        this.partnerCode = partnerCode;
+        this.invoice = invoice;
+        this.amonut = amonut;
+        this.totallimit=totallimit;
+        this.oldinvoice = 0;
+        this.shop = "";
+        this.phone = "";
+        this.otp = "";
+        this.username = "";
+        this.password = "";
+        this.address1 = "";
+        this.address2 = "";
+        this.shopId = "";
+        this.id = "";
+        this.city = "";
+        this.name = "";
+        this.pincode = "";
+    }
+
+    public User(int oldinvoice) {
+        this.oldinvoice = oldinvoice;
+        this.shop = "";
+        this.phone = "";
+        this.otp = "";
+        this.username = "";
+        this.password = "";
+        this.address1 = "";
+        this.address2 = "";
+        this.shopId = "";
+        this.id = "";
+        this.card = "";
+        this.totallimit = "";
+        this.city = "";
+        this.name = "";
+        this.pincode = "";
+        this.partnerCode = "";
+        this.invoice="";
+        this.amonut="";
+    }
+
+    public User(String shop, String phone, String otp) {
+        this.shop = shop;
+        this.phone = phone;
+        this.otp = otp;
+        this.invoice = "";
+        this.oldinvoice = 0;
+        this.username = "";
+        this.password = "";
+        this.address1 = "";
+        this.address2 = "";
+        this.shopId = "";
+        this.id = "";
+        this.card = "";
+        this.totallimit = "";
+        this.city = "";
+        this.name = "";
+        this.pincode = "";
+        this.partnerCode = "";
+        this.invoice="";
+        this.amonut="";
+    }
 
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+        this.otp = "";
         this.shop = "";
         this.phone = "";
-        this.address1="";
-        this.address2="";
-        this.shopId="";
-        this.id="";
+        this.address1 = "";
+        this.address2 = "";
+        this.shopId = "";
+        this.id = "";
         this.card = "";
-        this.totallimit="";
+        this.totallimit = "";
         this.city = "";
         this.name = "";
         this.pincode = "";
-        this.partnerCode="";
+        this.partnerCode = "";
+        this.invoice="";
+        this.amonut="";
     }
 
     public User(String card) {
         this.card = card;
+        this.oldinvoice = 0;
         this.username = "";
         this.password = "";
         this.shop = "";
         this.phone = "";
-        this.id="";
-
-        this.address1="";
-        this.address2="";
-        this.totallimit="";
+        this.id = "";
+        this.otp = "";
+        this.address1 = "";
+        this.address2 = "";
+        this.totallimit = "";
         this.city = "";
         this.name = "";
         this.pincode = "";
-        this.shopId="";
+        this.shopId = "";
     }
 
-    public User(String shopId,String username, String password, String shop, String phone,String partnerCode,String address1,String address2) {
-        this.shopId=shopId;
+    public User(String shopId, String username, String password, String shop, String phone, String partnerCode, String address1, String address2,String city) {
+        this.shopId = shopId;
         this.username = username;
         this.password = password;
         this.shop = shop;
         this.phone = phone;
-        this.partnerCode=partnerCode;
-        this.address1=address1;
-        this.address2=address2;
+        this.partnerCode = partnerCode;
+        this.address1 = address1;
+        this.address2 = address2;
+        this.otp = "";
+        this.oldinvoice = 0;
         this.phone = "";
-        this.id="";
+        this.id = "";
         this.card = "";
-        this.totallimit="";
-        this.city = "";
+        this.totallimit = "";
+        this.city = city;
         this.name = "";
         this.pincode = "";
+        this.invoice="";
+        this.amonut="";
     }
-
-    public User(String id,String name , String card,  String phone,String city, String pincode, String totallimit) {
-       this.id=id;
+    public User(String id, String name, String card, String phone, String city, String pincode, String totallimit) {
+        this.id = id;
         this.phone = phone;
         this.card = card;
-        this.totallimit=totallimit;
+        this.totallimit = totallimit;
         this.city = city;
         this.name = name;
         this.pincode = pincode;
-        this.username = "";
-        this.shopId="";
+        this.invoice="";
+        this.amonut="'";
+        this.oldinvoice = 0;
+        this.amonut="";
+        this.tr = "'";
+        this.shopId = "";
         this.password = "";
         this.shop = "";
-        this.partnerCode="";
+        this.partnerCode = "";
+        this.otp = "";
+        this.address1 = "";
+        this.address2 = "";
 
-        this.address1="";
-        this.address2="";
+    }
 
+
+    public User(String id, String name, String card, String phone, String city, String pincode, String totallimit, String invoice, String amount,String tr) {
+        this.id = id;
+        this.phone = phone;
+        this.card = card;
+        this.totallimit = totallimit;
+        this.city = city;
+        this.name = name;
+        this.pincode = pincode;
+        this.invoice=invoice;
+        this.amonut=amount;
+        this.amonut=amount;
+        this.tr = tr;
+        this.shopId = "";
+        this.password = "";
+        this.shop = "";
+        this.partnerCode = "";
+        this.otp = "";
+        this.address1 = "";
+        this.address2 = "";
+
+    }
+
+
+    public void setInvoice(String invoice) {
+        this.invoice = invoice;
+    }
+
+    public void setAmonut(String amonut) {
+        this.amonut = amonut;
+    }
+
+    public void setTr(String tr) {
+        this.tr = tr;
+    }
+
+    public void setOldinvoice(int oldinvoice) {
+        this.oldinvoice = oldinvoice;
+    }
+
+    public String getOtp() {
+        return otp;
+    }
+
+    public void setOtp(String otp) {
+        this.otp = otp;
     }
 
     public String getAddress1() {
@@ -191,5 +317,21 @@ public class User {
 
     public void setPartnerCode(String partnerCode) {
         this.partnerCode = partnerCode;
+    }
+
+    public String getInvoice() {
+        return invoice;
+    }
+
+    public String getAmonut() {
+        return amonut;
+    }
+
+    public String getTr() {
+        return tr;
+    }
+
+    public int getOldinvoice() {
+        return oldinvoice;
     }
 }
