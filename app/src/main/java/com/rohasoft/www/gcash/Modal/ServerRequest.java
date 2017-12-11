@@ -163,7 +163,7 @@ public class ServerRequest {
                     int i =Integer.parseInt(jobject.getString("invoice"));
                     UserLocalStore userLocalStore=new UserLocalStore(mContext);
                     userLocalStore.storeOldInvoice(String.valueOf(i));
-                   returnedUser =new User(i);
+                    returnedUser =new User(i);
 
 
 
@@ -194,7 +194,7 @@ public class ServerRequest {
         @Override
         protected User doInBackground(Void... voids) {
             ArrayList<NameValuePair> dataToSend = new ArrayList<>();
-            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             Date date = new Date();
             String date1=dateFormat.format(date);
 
