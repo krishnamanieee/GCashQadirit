@@ -126,7 +126,6 @@ public class User {
         this.address2 = address2;
         this.otp = "";
         this.oldinvoice = 0;
-        this.phone = "";
         this.id = "";
         this.card = "";
         this.totallimit = "";

@@ -1,9 +1,11 @@
 package com.rohasoft.www.gcash.Controler;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -37,21 +39,35 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     Toolbar mToolbar;
+    TextView mTextViewShopName,mTextViewPartnerCard,mTextViewPhone,mTextViewAddress1,mTextViewAddress2,mTextViewCity;
 
     public static final int REQUEST_CODE = 100;
 
     UserLocalStore userLocalStore;
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mToolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(mToolbar);
+        mTextViewShopName=(TextView)findViewById(R.id.shopname_textview);
+        mTextViewPartnerCard=(TextView)findViewById(R.id.partner_card_textview);
+        mTextViewPhone=(TextView)findViewById(R.id.phone_textview);
+        mTextViewAddress1=(TextView)findViewById(R.id.address1_textview);
+        mTextViewAddress2=(TextView)findViewById(R.id.address2_textview);
+        mTextViewCity=(TextView)findViewById(R.id.city_textview);
 
 
         userLocalStore=new UserLocalStore(this);
         User user=userLocalStore.getLoggedUser();
+        mTextViewShopName.setText(user.getShop());
+        mTextViewPartnerCard.setText(user.getPartnerCode());
+        mTextViewPhone.setText(user.getPhone());
+        mTextViewAddress1.setText(user.getAddress1());
+        mTextViewAddress2.setText(user.getAddress2());
+        mTextViewCity.setText(user.getCity());
 
 
 

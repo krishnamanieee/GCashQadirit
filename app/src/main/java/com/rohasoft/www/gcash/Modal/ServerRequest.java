@@ -200,9 +200,10 @@ public class ServerRequest {
 
             dataToSend.add(new BasicNameValuePair("partnercode", user.partnerCode));
             dataToSend.add(new BasicNameValuePair("customercard", user.card));
+            Log.e("db card",user.partnerCode+"=="+ user.card);
             dataToSend.add(new BasicNameValuePair("invoice", user.invoice));
             dataToSend.add(new BasicNameValuePair("amount", user.amonut));
-            dataToSend.add(new BasicNameValuePair("date", "144"));
+            dataToSend.add(new BasicNameValuePair("date", date1));
             dataToSend.add(new BasicNameValuePair("totallimit", user.totallimit));
             HttpParams httpRequestParams = new BasicHttpParams();
             HttpConnectionParams.setConnectionTimeout(httpRequestParams, CONNECTION_TIMEOUT);

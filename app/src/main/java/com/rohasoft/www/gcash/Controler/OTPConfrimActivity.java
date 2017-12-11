@@ -25,22 +25,19 @@ public class OTPConfrimActivity extends AppCompatActivity {
     EditText mEditTextOTP;
     Button mButtonOTP;
     int noOtp = 0, total = 0, amt = 0;
-    int  invoiceNo;
-    UserLocalStore userLocalStore;
-    String oldinvoice;
-    String card;
+
+    String card,invoice,cusname;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_otpscreen);
 
         mEditTextOTP = (EditText) findViewById(R.id.otpscreen_otp_editText);
         mButtonOTP = (Button) findViewById(R.id.otpscreen_otp_button);
-        userLocalStore = new UserLocalStore(getApplicationContext());
-        oldinvoice = userLocalStore.getOldInvoice();
-        invoiceNo = 1 + Integer.parseInt(oldinvoice);
 
 
         try {
@@ -48,9 +45,9 @@ public class OTPConfrimActivity extends AppCompatActivity {
             total = getIntent().getExtras().getInt("total");
             amt = getIntent().getExtras().getInt("amt");
             card = getIntent().getExtras().getString("card");
-            Toast.makeText(getApplicationContext(), "" + card, Toast.LENGTH_SHORT).show();
-
-
+            invoice = getIntent().getExtras().getString("invoice");
+            cusname = getIntent().getExtras().getString("cusname");
+            //Toast.makeText(getApplicationContext(), "" + card, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Log.e("get OTP", e.toString());
         }
@@ -64,8 +61,8 @@ public class OTPConfrimActivity extends AppCompatActivity {
                     User user1 = userLocalStore.getLoggedUser();
 
 
-                    Toast.makeText(getApplicationContext(), total + "/" + amt, Toast.LENGTH_SHORT).show();
-                    User user = new User(card, user1.getPartnerCode(), String.valueOf(invoiceNo), String.valueOf(amt), String.valueOf(total));
+                    //   Toast.makeText(getApplicationContext(), total + "/" + amt, Toast.LENGTH_SHORT).show();
+                    User user = new User(card, user1.getPartnerCode(), String.valueOf(invoice), String.valueOf(amt), String.valueOf(total));
 
 
                     storedata(user);
@@ -82,13 +79,23 @@ public class OTPConfrimActivity extends AppCompatActivity {
         serverRequest.storePointInBackground(user, new GetUserCallBack() {
             @Override
             public void Done(User returedUser) {
-
-                    Toast.makeText(getApplicationContext(), "old invoice" + invoiceNo, Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getApplicationContext(), SuccessActivity.class);
-                    startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(), SuccessActivity.class);
+                intent.putExtra("cusname",cusname);
+                intent.putExtra("card",card);
+                Log.e("OTP to Success",card+amt);
+                intent.putExtra("invoice",invoice);
+                intent.putExtra("amt",String.valueOf(amt));
+                startActivity(intent);
 
             }
         });
+
+    }
+    @Override
+    public boolean onSupportNavigateUp() {
+
+        onBackPressed();
+        return true;
 
     }
 
