@@ -163,7 +163,7 @@ public class ServerRequest {
                     int i =Integer.parseInt(jobject.getString("invoice"));
                     UserLocalStore userLocalStore=new UserLocalStore(mContext);
                     userLocalStore.storeOldInvoice(String.valueOf(i));
-                   returnedUser =new User(i);
+                    returnedUser =new User(i);
 
 
 
@@ -194,7 +194,7 @@ public class ServerRequest {
         @Override
         protected User doInBackground(Void... voids) {
             ArrayList<NameValuePair> dataToSend = new ArrayList<>();
-            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             Date date = new Date();
             String date1=dateFormat.format(date);
 
@@ -202,7 +202,7 @@ public class ServerRequest {
             dataToSend.add(new BasicNameValuePair("customercard", user.card));
             dataToSend.add(new BasicNameValuePair("invoice", user.invoice));
             dataToSend.add(new BasicNameValuePair("amount", user.amonut));
-            dataToSend.add(new BasicNameValuePair("date", "144"));
+            dataToSend.add(new BasicNameValuePair("date", date1));
             dataToSend.add(new BasicNameValuePair("totallimit", user.totallimit));
             HttpParams httpRequestParams = new BasicHttpParams();
             HttpConnectionParams.setConnectionTimeout(httpRequestParams, CONNECTION_TIMEOUT);

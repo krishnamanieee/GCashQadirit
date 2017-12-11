@@ -27,7 +27,7 @@ public class OTPConfrimActivity extends AppCompatActivity {
     int noOtp = 0, total = 0, amt = 0;
     int  invoiceNo;
     UserLocalStore userLocalStore;
-    String oldinvoice;
+    String oldinvoice="0";
     String card;
 
 
@@ -39,7 +39,8 @@ public class OTPConfrimActivity extends AppCompatActivity {
         mEditTextOTP = (EditText) findViewById(R.id.otpscreen_otp_editText);
         mButtonOTP = (Button) findViewById(R.id.otpscreen_otp_button);
         userLocalStore = new UserLocalStore(getApplicationContext());
-        oldinvoice = userLocalStore.getOldInvoice();
+        oldinvoice = "0"+userLocalStore.getOldInvoice();
+
         invoiceNo = 1 + Integer.parseInt(oldinvoice);
 
 
@@ -48,7 +49,7 @@ public class OTPConfrimActivity extends AppCompatActivity {
             total = getIntent().getExtras().getInt("total");
             amt = getIntent().getExtras().getInt("amt");
             card = getIntent().getExtras().getString("card");
-            Toast.makeText(getApplicationContext(), "" + card, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "" + invoiceNo +"in old"+oldinvoice, Toast.LENGTH_SHORT).show();
 
 
         } catch (Exception e) {
@@ -64,13 +65,44 @@ public class OTPConfrimActivity extends AppCompatActivity {
                     User user1 = userLocalStore.getLoggedUser();
 
 
-                    Toast.makeText(getApplicationContext(), total + "/" + amt, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), card + "/" + user1.getPartnerCode(), Toast.LENGTH_SHORT).show();
                     User user = new User(card, user1.getPartnerCode(), String.valueOf(invoiceNo), String.valueOf(amt), String.valueOf(total));
 
 
                     storedata(user);
 
                 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             }
         });
 
