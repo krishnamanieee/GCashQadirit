@@ -204,6 +204,8 @@ public class ServerRequest {
             dataToSend.add(new BasicNameValuePair("amount", user.amonut));
             dataToSend.add(new BasicNameValuePair("date", date1));
             dataToSend.add(new BasicNameValuePair("totallimit", user.totallimit));
+
+            Log.e("user data",user.partnerCode+user.card);
             HttpParams httpRequestParams = new BasicHttpParams();
             HttpConnectionParams.setConnectionTimeout(httpRequestParams, CONNECTION_TIMEOUT);
             HttpConnectionParams.setSoTimeout(httpRequestParams, CONNECTION_TIMEOUT);
