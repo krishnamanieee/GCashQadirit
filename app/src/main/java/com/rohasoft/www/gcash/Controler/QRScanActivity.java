@@ -57,13 +57,17 @@ public class QRScanActivity extends AppCompatActivity  implements ZXingScannerVi
 
     @Override
     public void handleResult(Result rawResult) {
+        Intent intent=new Intent(getApplicationContext(),CoupenAddActivity.class);
+        intent.putExtra("barcode", rawResult.getText());
 
-        if (rawResult.toString().length() == 16){
+        startActivity(intent);
 
-           /* Intent intent = new Intent();
+       /* if (rawResult.toString().length() == 16){
+
+           Intent intent = new Intent();
             intent.putExtra("barcode", rawResult.getText());
             setResult(RESULT_OK, intent);
-            finish();*/
+            finish();
            Intent intent=new Intent(getApplicationContext(),CoupenAddActivity.class);
            intent.putExtra("barcode", rawResult.getText());
 
@@ -72,7 +76,7 @@ public class QRScanActivity extends AppCompatActivity  implements ZXingScannerVi
 
         }
         else {
-        //    Toast.makeText(getApplicationContext(),rawResult.toString(),Toast.LENGTH_SHORT).show();
+          Toast.makeText(getApplicationContext(),rawResult.toString(),Toast.LENGTH_SHORT).show();
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Oops..:( ");
             builder.setMessage(" Invalid QR Code please try another code");
@@ -95,7 +99,7 @@ public class QRScanActivity extends AppCompatActivity  implements ZXingScannerVi
 
         }
 
-        /*Log.v("TAG", rawResult.getText()); // Prints scan results
+        Log.v("TAG", rawResult.getText()); // Prints scan results
         Log.v("TAG", rawResult.getBarcodeFormat().toString()); // Prints the scan format (qrcode, pdf417 etc.)
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Scan Result");
