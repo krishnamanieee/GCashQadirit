@@ -31,7 +31,9 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="160dp"
+                        android:layout_gravity="center"
                         android:background="@color/colorPrimary"
+                        android:gravity="top|center"
                         android:orientation="horizontal"
                         android:weightSum="5">
 
@@ -43,7 +45,7 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="2"
                                 android:gravity="end"
@@ -54,7 +56,7 @@
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="152dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="2"
                                 android:gravity="start"
@@ -95,9 +97,9 @@
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/border">
+                    android:background="@drawable/border"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -139,9 +141,9 @@
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/border">
+                    android:background="@drawable/border"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -182,9 +184,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="10dp"
                 android:background="@drawable/border"
+                android:paddingBottom="5dp"
+                android:paddingTop="10dp"
                 android:weightSum="2">
 
                 <TextView
@@ -207,8 +209,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="10dp"
+                android:paddingBottom="5dp"
+                android:paddingTop="10dp"
                 android:background="@drawable/border"
                 android:weightSum="2">
 
@@ -227,15 +229,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Invoice Text" />
+                    android:text="Invoice iText" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingTop="10dp"
                 android:weightSum="2">
 
                 <TextView
@@ -246,6 +247,7 @@
                     android:paddingRight="10dp"
                     android:text="Date"
                     android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/success_date_textview"
                     android:layout_width="match_parent"

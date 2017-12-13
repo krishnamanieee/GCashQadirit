@@ -26,7 +26,7 @@ import java.util.Random;
 public class CoupenAddActivity extends AppCompatActivity {
 
     TextView mTextViewQrcode, mTextViewName, mTextViewPhone, mTextViewCity, mTextViewPincode, mTextViewReScan;
-    EditText mEditTextAddPoint;
+    EditText mEditTextAddPoint,mEditTextInvoice;
     Button mButton;
     int randomNumber, tot=0, temp=0,invoice=0;
     String ponit;
@@ -44,6 +44,7 @@ public class CoupenAddActivity extends AppCompatActivity {
         mTextViewPincode = (TextView) findViewById(R.id.inputscreen_pincode_textview);
         mTextViewReScan = (TextView) findViewById(R.id.inputscreen_rescan_textview);
         mEditTextAddPoint = (EditText) findViewById(R.id.inputscreen_add_point_textview);
+        mEditTextInvoice = (EditText) findViewById(R.id.inputscreen_add_invoice_textview);
 
         mButton = (Button) findViewById(R.id.inputscreen_submit_button);
         String qrValue = getIntent().getExtras().getString("barcode");
@@ -106,8 +107,10 @@ public class CoupenAddActivity extends AppCompatActivity {
                     intent.putExtra("otp", randomNumber);
                     int resultAmt=tot-temp;
                     intent.putExtra("total", resultAmt);
+                    intent.putExtra("invoice", mEditTextInvoice.getText().toString());
                     intent.putExtra("amt", temp);
                     intent.putExtra("card", mTextViewQrcode.getText().toString());
+                    intent.putExtra("cusname", mTextViewName.getText().toString());
 
                     startActivity(intent);
 

@@ -150,9 +150,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
 
             android:gravity="center">
+            <EditText
+                android:id="@+id/inputscreen_add_invoice_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="8"
+                android:hint="Enter Invoice No"
+                android:inputType="text"
+                android:textAlignment="center"
+                android:maxLength="6"/>
             <EditText
                 android:id="@+id/inputscreen_add_point_textview"
                 android:layout_width="wrap_content"

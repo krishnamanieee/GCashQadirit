@@ -25,23 +25,20 @@ public class OTPConfrimActivity extends AppCompatActivity {
     EditText mEditTextOTP;
     Button mButtonOTP;
     int noOtp = 0, total = 0, amt = 0;
-    int  invoiceNo;
-    UserLocalStore userLocalStore;
-    String oldinvoice="0";
-    String card;
+
+    String card,invoice,cusname;
+    int newpoint,old;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_otpscreen);
 
         mEditTextOTP = (EditText) findViewById(R.id.otpscreen_otp_editText);
         mButtonOTP = (Button) findViewById(R.id.otpscreen_otp_button);
-        userLocalStore = new UserLocalStore(getApplicationContext());
-        oldinvoice = "0"+userLocalStore.getOldInvoice();
-
-        invoiceNo = 1 + Integer.parseInt(oldinvoice);
 
 
         try {
@@ -49,9 +46,9 @@ public class OTPConfrimActivity extends AppCompatActivity {
             total = getIntent().getExtras().getInt("total");
             amt = getIntent().getExtras().getInt("amt");
             card = getIntent().getExtras().getString("card");
-            Toast.makeText(getApplicationContext(), "" + invoiceNo +"in old"+oldinvoice, Toast.LENGTH_SHORT).show();
-
-
+            invoice = getIntent().getExtras().getString("invoice");
+            cusname = getIntent().getExtras().getString("cusname");
+            //Toast.makeText(getApplicationContext(), "" + card, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Log.e("get OTP", e.toString());
         }
@@ -64,45 +61,19 @@ public class OTPConfrimActivity extends AppCompatActivity {
                     UserLocalStore userLocalStore = new UserLocalStore(getApplicationContext());
                     User user1 = userLocalStore.getLoggedUser();
 
+                    old=Integer.parseInt(user1.getPoints());
+                    newpoint=old+amt;
 
-                    Toast.makeText(getApplicationContext(), card + "/" + user1.getPartnerCode(), Toast.LENGTH_SHORT).show();
-                    User user = new User(card, user1.getPartnerCode(), String.valueOf(invoiceNo), String.valueOf(amt), String.valueOf(total));
+
+                    //   Toast.makeText(getApplicationContext(), total + "/" + amt, Toast.LENGTH_SHORT).show();
+                    User user = new User(card, user1.getPartnerCode(), String.valueOf(invoice),
+                            String.valueOf(amt), String.valueOf(total),newpoint);
+
 
 
                     storedata(user);
 
                 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             }
         });
 
@@ -114,15 +85,47 @@ public class OTPConfrimActivity extends AppCompatActivity {
         serverRequest.storePointInBackground(user, new GetUserCallBack() {
             @Override
             public void Done(User returedUser) {
+                UserLocalStore userLocalStore=new UserLocalStore(getApplicationContext());
+                User user1=userLocalStore.getLoggedUser();
 
-                    Toast.makeText(getApplicationContext(), "old invoice" + invoiceNo, Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getApplicationContext(), SuccessActivity.class);
-                    startActivity(intent);
+
+                userLocalStore.storePoint(String.valueOf(newpoint));
+
+                Intent intent = new Intent(getApplicationContext(), SuccessActivity.class);
+                intent.putExtra("cusname",cusname);
+                intent.putExtra("card",card);
+                Log.e("OTP to Success",card+amt);
+                intent.putExtra("invoice",invoice);
+                intent.putExtra("amt",String.valueOf(amt));
+                startActivity(intent);
 
             }
         });
 
+
     }
+
+    private static final int TIME_DELAY = 2000;
+    private static long back_pressed;
+    @Override
+    public void onBackPressed() {
+        onBackPressed();
+        if (back_pressed + TIME_DELAY > System.currentTimeMillis()) {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent);
+            finish();
+            System.exit(0);
+
+        } else {
+            Toast.makeText(getBaseContext(), "Press once again to exit!",
+                    Toast.LENGTH_SHORT).show();
+        }
+        back_pressed = System.currentTimeMillis();
+    }
+
 
 
 }
