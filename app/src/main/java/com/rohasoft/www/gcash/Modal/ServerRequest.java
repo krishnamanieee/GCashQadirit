@@ -162,7 +162,7 @@ public class ServerRequest {
                 } else {
                     int i =Integer.parseInt(jobject.getString("invoice"));
                     UserLocalStore userLocalStore=new UserLocalStore(mContext);
-                    userLocalStore.storeOldInvoice(String.valueOf(i));
+
                     returnedUser =new User(i);
 
 
@@ -205,6 +205,7 @@ public class ServerRequest {
             dataToSend.add(new BasicNameValuePair("amount", user.amonut));
             dataToSend.add(new BasicNameValuePair("date", date1));
             dataToSend.add(new BasicNameValuePair("totallimit", user.totallimit));
+            dataToSend.add(new BasicNameValuePair("partnerttoltal", String.valueOf(user.partnertToltal)));
             HttpParams httpRequestParams = new BasicHttpParams();
             HttpConnectionParams.setConnectionTimeout(httpRequestParams, CONNECTION_TIMEOUT);
             HttpConnectionParams.setSoTimeout(httpRequestParams, CONNECTION_TIMEOUT);
@@ -278,7 +279,7 @@ public class ServerRequest {
 
                 HttpEntity entity = httpResponse.getEntity();
                 String result = EntityUtils.toString(entity);
-                Log.e("TAG Result",result);
+
                 JSONObject jobject = new JSONObject(result);
 
                 if (jobject.length() == 0) {
@@ -293,7 +294,9 @@ public class ServerRequest {
                     String address1 = jobject.getString("address1");
                     String address2 = jobject.getString("address2");
                     String city = jobject.getString("city");
-                    returnedUser = new User(shopId,username, password, shop, phone,partnerCode,address1,address2,city);
+                    String ponits = jobject.getString("point");
+                    String pincode = jobject.getString("pincode");
+                    returnedUser = new User(shop,ponits,partnerCode,phone,address1,address2,city,pincode,username);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

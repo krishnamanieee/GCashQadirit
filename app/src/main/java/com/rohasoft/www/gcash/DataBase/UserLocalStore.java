@@ -2,6 +2,7 @@ package com.rohasoft.www.gcash.DataBase;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.rohasoft.www.gcash.Modal.User;
 
@@ -20,42 +21,44 @@ public class UserLocalStore {
     }
     public void storeUserData(User user){
         SharedPreferences.Editor spEditor=userlocalDatabase.edit();
-        spEditor.putString("shopId",user.getShopId());
         spEditor.putString("username",user.getUsername());
-        spEditor.putString("password",user.getPassword());
         spEditor.putString("shop",user.getShop());
         spEditor.putString("phone",user.getPhone());
         spEditor.putString("partnerCode",user.getPartnerCode());
         spEditor.putString("address1",user.getAddress1());
         spEditor.putString("address2",user.getAddress2());
         spEditor.putString("city",user.getCity());
+        spEditor.putString("points",user.getPoints());
+        spEditor.putString("pincode",user.getPincode());
+        Log.e("TAG Result",user.getAddress1());
 
         spEditor.commit();
     }
-    public void storeOldInvoice(String s){
+    public void storePoint(String s){
         SharedPreferences.Editor spEditor=userlocalDatabase.edit();
-        spEditor.putString("oldinvoice",s);
+        spEditor.putString("points",s);
 
         spEditor.commit();
 
     }
 
-    public String getOldInvoice(){
-        String oldinvoice=userlocalDatabase.getString("oldinvoice","");
-        return oldinvoice;
+    public String getPoints(){
+        String points=userlocalDatabase.getString("points","");
+        return points;
     }
     public User getLoggedUser(){
-        String shopId=userlocalDatabase.getString("shopId","");
         String username=userlocalDatabase.getString("username","");
-        String password=userlocalDatabase.getString("password","");
         String shop=userlocalDatabase.getString("shop","");
         String phone=userlocalDatabase.getString("phone","");
         String partnerCode=userlocalDatabase.getString("partnerCode","");
         String address1=userlocalDatabase.getString("address1","");
         String address2=userlocalDatabase.getString("address2","");
         String city=userlocalDatabase.getString("city","");
+        String ponits=userlocalDatabase.getString("points","");
+        String pincode=userlocalDatabase.getString("pincode","");
 
-        User storedUser=new User(shopId,username,password,shop,phone,partnerCode,address1,address2,city);
+        User storedUser=new User(shop,ponits,partnerCode,phone,address1,address2,city,pincode
+                ,username);
         return storedUser;
     }
 }

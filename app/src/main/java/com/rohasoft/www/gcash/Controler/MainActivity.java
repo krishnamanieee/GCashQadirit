@@ -40,7 +40,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     Toolbar mToolbar;
-    TextView mTextViewShopName,mTextViewPartnerCard,mTextViewPhone,mTextViewAddress1,mTextViewAddress2,mTextViewCity;
+    TextView mTextViewShopName,mTextViewPartnerCard,mTextViewPhone,mTextViewAddress1,mTextViewAddress2,mTextViewCity,mTextViewPoints;
 
     public static final int REQUEST_CODE = 100;
 
@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         mTextViewAddress1=(TextView)findViewById(R.id.address1_textview);
         mTextViewAddress2=(TextView)findViewById(R.id.address2_textview);
         mTextViewCity=(TextView)findViewById(R.id.city_textview);
+        mTextViewPoints=(TextView)findViewById(R.id.ponits_text_view);
 
 
         userLocalStore=new UserLocalStore(this);
@@ -69,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
         mTextViewAddress1.setText(user.getAddress1());
         mTextViewAddress2.setText(user.getAddress2());
         mTextViewCity.setText(user.getCity());
+        mTextViewPoints.setText(user.getPoints());
+        Log.e("TAG Result",user.getPhone());
 
 
 

@@ -48,7 +48,7 @@ public class SuccessActivity extends AppCompatActivity {
 
 
 
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         Date date = new Date();
         String date1=dateFormat.format(date);
 

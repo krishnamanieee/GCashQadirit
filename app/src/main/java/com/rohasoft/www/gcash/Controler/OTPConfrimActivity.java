@@ -27,6 +27,7 @@ public class OTPConfrimActivity extends AppCompatActivity {
     int noOtp = 0, total = 0, amt = 0;
 
     String card,invoice,cusname;
+    int newpoint,old;
 
 
     @Override
@@ -60,9 +61,14 @@ public class OTPConfrimActivity extends AppCompatActivity {
                     UserLocalStore userLocalStore = new UserLocalStore(getApplicationContext());
                     User user1 = userLocalStore.getLoggedUser();
 
+                    old=Integer.parseInt(user1.getPoints());
+                    newpoint=old+amt;
+
 
                     //   Toast.makeText(getApplicationContext(), total + "/" + amt, Toast.LENGTH_SHORT).show();
-                    User user = new User(card, user1.getPartnerCode(), String.valueOf(invoice), String.valueOf(amt), String.valueOf(total));
+                    User user = new User(card, user1.getPartnerCode(), String.valueOf(invoice),
+                            String.valueOf(amt), String.valueOf(total),newpoint);
+
 
 
                     storedata(user);
@@ -79,6 +85,12 @@ public class OTPConfrimActivity extends AppCompatActivity {
         serverRequest.storePointInBackground(user, new GetUserCallBack() {
             @Override
             public void Done(User returedUser) {
+                UserLocalStore userLocalStore=new UserLocalStore(getApplicationContext());
+                User user1=userLocalStore.getLoggedUser();
+
+
+                userLocalStore.storePoint(String.valueOf(newpoint));
+
                 Intent intent = new Intent(getApplicationContext(), SuccessActivity.class);
                 intent.putExtra("cusname",cusname);
                 intent.putExtra("card",card);

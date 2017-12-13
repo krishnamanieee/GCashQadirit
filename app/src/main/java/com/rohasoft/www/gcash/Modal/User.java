@@ -6,14 +6,14 @@ package com.rohasoft.www.gcash.Modal;
 
 public class User {
 
-    String username, password, shop, phone, card, city, name, pincode, id, totallimit, partnerCode, shopId;
+    String username, password, shop, phone, card, city, name, pincode, id, totallimit, partnerCode, shopId, points;
 
     String address1, address2;
     String otp,invoice, amonut, tr;
 
-    int oldinvoice;
+    int oldinvoice,partnertToltal;
 
-    public User(String card, String partnerCode, String invoice, String amonut, String totallimit) {
+    public User(String card, String partnerCode, String invoice, String amonut, String totallimit,int partnertToltal) {
         this.card = card;
         this.partnerCode = partnerCode;
         this.invoice = invoice;
@@ -21,6 +21,7 @@ public class User {
         this.totallimit=totallimit;
         this.oldinvoice = 0;
         this.shop = "";
+        this.points="";
         this.phone = "";
         this.otp = "";
         this.username = "";
@@ -32,6 +33,7 @@ public class User {
         this.city = "";
         this.name = "";
         this.pincode = "";
+        this.partnertToltal=partnertToltal;
     }
 
     public User(int oldinvoice) {
@@ -53,6 +55,8 @@ public class User {
         this.partnerCode = "";
         this.invoice="";
         this.amonut="";
+        this.points="";
+        this.partnertToltal=0;
     }
 
     public User(String shop, String phone, String otp) {
@@ -61,6 +65,7 @@ public class User {
         this.otp = otp;
         this.invoice = "";
         this.oldinvoice = 0;
+        this.points="";
         this.username = "";
         this.password = "";
         this.address1 = "";
@@ -75,6 +80,7 @@ public class User {
         this.partnerCode = "";
         this.invoice="";
         this.amonut="";
+        this.partnertToltal=0;
     }
 
     public User(String username, String password) {
@@ -82,10 +88,12 @@ public class User {
         this.password = password;
         this.otp = "";
         this.shop = "";
+        this.partnertToltal=0;
         this.phone = "";
         this.address1 = "";
         this.address2 = "";
         this.shopId = "";
+        this.username="";
         this.id = "";
         this.card = "";
         this.totallimit = "";
@@ -94,6 +102,7 @@ public class User {
         this.pincode = "";
         this.partnerCode = "";
         this.invoice="";
+        this.points="";
         this.amonut="";
     }
 
@@ -101,6 +110,7 @@ public class User {
         this.card = card;
         this.oldinvoice = 0;
         this.username = "";
+        this.points="";
         this.password = "";
         this.shop = "";
         this.phone = "";
@@ -113,27 +123,35 @@ public class User {
         this.name = "";
         this.pincode = "";
         this.shopId = "";
+        this.username="";
     }
 
-    public User(String shopId, String username, String password, String shop, String phone, String partnerCode, String address1, String address2,String city) {
-        this.shopId = shopId;
-        this.username = username;
-        this.password = password;
-        this.shop = shop;
-        this.phone = phone;
-        this.partnerCode = partnerCode;
-        this.address1 = address1;
-        this.address2 = address2;
-        this.otp = "";
-        this.oldinvoice = 0;
+    public  User(String shopName,String point,String partnerCode,String phoneNo,String address1,String address2,String city,
+                 String pincode, String username){
         this.id = "";
+        this.phone = phoneNo;
         this.card = "";
         this.totallimit = "";
         this.city = city;
         this.name = "";
-        this.pincode = "";
+        this.pincode = pincode;
         this.invoice="";
+        this.amonut="'";
+        this.oldinvoice = 0;
         this.amonut="";
+        this.tr = "'";
+        this.shopId = "";
+        this.password = "";
+        this.shop = shopName;
+        this.partnerCode = partnerCode;
+        this.otp = "";
+        this.address1 = address1;
+        this.address2 = address2;
+        this.points=point;
+        this.username=username;
+
+
+
     }
     public User(String id, String name, String card, String phone, String city, String pincode, String totallimit) {
         this.id = id;
@@ -149,12 +167,15 @@ public class User {
         this.amonut="";
         this.tr = "'";
         this.shopId = "";
+        this.partnertToltal=0;
         this.password = "";
         this.shop = "";
         this.partnerCode = "";
         this.otp = "";
         this.address1 = "";
         this.address2 = "";
+        this.points="";
+        this.username="";
 
     }
 
@@ -332,5 +353,14 @@ public class User {
 
     public int getOldinvoice() {
         return oldinvoice;
+    }
+
+
+    public String getPoints() {
+        return points;
+    }
+
+    public int getPartnertToltal() {
+        return partnertToltal;
     }
 }
