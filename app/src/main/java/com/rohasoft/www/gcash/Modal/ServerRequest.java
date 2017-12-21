@@ -54,6 +54,10 @@ public class ServerRequest {
         progressDialog.show();
         new StorePointAsyncTask(user, callBack).execute();
     }
+    public void storesettlementInBackground(User user, GetUserCallBack callBack) {
+        progressDialog.show();
+        new StoresettlementAsyncTask(user, callBack).execute();
+    }
 
     public void fetchCardDataInBackground(User user, GetUserCallBack callBack) {
         progressDialog.show();
@@ -205,18 +209,84 @@ public class ServerRequest {
             dataToSend.add(new BasicNameValuePair("amount", user.amonut));
             dataToSend.add(new BasicNameValuePair("date", date1));
             dataToSend.add(new BasicNameValuePair("totallimit", user.totallimit));
-<<<<<<< HEAD
+
 
             Log.e("user data",user.partnerCode+user.card);
-=======
+
             dataToSend.add(new BasicNameValuePair("partnerttoltal", String.valueOf(user.partnertToltal)));
->>>>>>> e29a858ff5aa23db940d4c607d89379d0e31ec8f
+
             HttpParams httpRequestParams = new BasicHttpParams();
             HttpConnectionParams.setConnectionTimeout(httpRequestParams, CONNECTION_TIMEOUT);
             HttpConnectionParams.setSoTimeout(httpRequestParams, CONNECTION_TIMEOUT);
 
             HttpClient client = new DefaultHttpClient(httpRequestParams);
             HttpPost post = new HttpPost(SERVER_ADDRESS + "storepoint.php");
+
+            User returnedUser = null;
+
+            try {
+                post.setEntity(new UrlEncodedFormEntity(dataToSend));
+                HttpResponse httpResponse = client.execute(post);
+
+                HttpEntity entity = httpResponse.getEntity();
+                String result = EntityUtils.toString(entity);
+                JSONObject jobject = new JSONObject(result);
+
+                if (jobject.length() == 0) {
+                    returnedUser = null;
+                } else {
+                   returnedUser =new User(user.partnerCode);
+
+
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return returnedUser;
+        }
+
+        @Override
+        protected void onPostExecute(User user) {
+            progressDialog.dismiss();
+            getUserCallBack.Done(user);
+            super.onPostExecute(user);
+        }
+    }
+
+    private class StoresettlementAsyncTask extends AsyncTask<Void, Void, User> {
+        User user;
+        GetUserCallBack getUserCallBack;
+
+        public StoresettlementAsyncTask(User user, GetUserCallBack getUserCallBack) {
+            this.user = user;
+            this.getUserCallBack = getUserCallBack;
+        }
+
+        @Override
+        protected User doInBackground(Void... voids) {
+            ArrayList<NameValuePair> dataToSend = new ArrayList<>();
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+            Date date = new Date();
+            String date1=dateFormat.format(date);
+
+            dataToSend.add(new BasicNameValuePair("partnercode", user.partnerCode));
+            dataToSend.add(new BasicNameValuePair("shop", user.shop));
+            Log.e("db card",user.partnerCode+"=="+ user.card);
+            dataToSend.add(new BasicNameValuePair("amount", user.amonut));
+            dataToSend.add(new BasicNameValuePair("date", date1));
+
+
+            Log.e("user data",user.partnerCode+user.card);
+
+
+            HttpParams httpRequestParams = new BasicHttpParams();
+            HttpConnectionParams.setConnectionTimeout(httpRequestParams, CONNECTION_TIMEOUT);
+            HttpConnectionParams.setSoTimeout(httpRequestParams, CONNECTION_TIMEOUT);
+
+            HttpClient client = new DefaultHttpClient(httpRequestParams);
+            HttpPost post = new HttpPost(SERVER_ADDRESS + "settlement.php");
 
             User returnedUser = null;
 
