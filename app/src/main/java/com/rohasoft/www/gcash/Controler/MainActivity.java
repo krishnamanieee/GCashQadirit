@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mToolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(mToolbar);
+        mToolbar.setLogo(R.drawable.logo);
         mTextViewShopName=(TextView)findViewById(R.id.shopname_textview);
         mTextViewPartnerCard=(TextView)findViewById(R.id.partner_card_textview);
         mTextViewPhone=(TextView)findViewById(R.id.phone_textview);

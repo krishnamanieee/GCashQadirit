@@ -1,5 +1,7 @@
 package com.rohasoft.www.gcash.Modal;
 
+import android.util.Log;
+
 /**
  * Created by Ayothi selvam on 12/7/2017.
  */

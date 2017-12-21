@@ -6,11 +6,17 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />-->
+ <!-- <item
+
+      android:icon="@drawable/logo"
+      android:title="@string/ex"
+      app:showAsAction="always"
+      android:orderInCategory="200"/>-->
 
     <item
         android:id="@+id/action_qrcode"
         android:icon="@drawable/qr_code"
         android:title="@string/ex"
         app:showAsAction="always"
-        android:orderInCategory="200"/>
+        android:orderInCategory="600"/>
 </menu>
