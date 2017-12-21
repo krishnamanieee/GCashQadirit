@@ -260,8 +260,9 @@ public class ServerRequest {
         protected User doInBackground(Void... voids) {
             ArrayList<NameValuePair> dataToSend = new ArrayList<>();
 
-            dataToSend.add(new BasicNameValuePair("email", user.username));
+            dataToSend.add(new BasicNameValuePair("username", user.username));
             dataToSend.add(new BasicNameValuePair("password", user.password));
+            Log.e("TAG",user.username+user.password);
 
 
             HttpParams httpRequestParams = new BasicHttpParams();
@@ -279,6 +280,7 @@ public class ServerRequest {
 
                 HttpEntity entity = httpResponse.getEntity();
                 String result = EntityUtils.toString(entity);
+                Log.e("TSG",result);
 
                 JSONObject jobject = new JSONObject(result);
 

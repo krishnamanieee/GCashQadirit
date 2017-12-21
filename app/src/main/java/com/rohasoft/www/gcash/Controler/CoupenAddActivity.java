@@ -67,7 +67,7 @@ public class CoupenAddActivity extends AppCompatActivity {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ponit = mEditTextAddPoint.getText().toString();
+                ponit = mEditTextAddPoint.getText().toString().trim();
 
                 if (ponit.length() > 0 && ponit.length() < 6) {
 

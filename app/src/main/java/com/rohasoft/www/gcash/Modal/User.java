@@ -93,7 +93,6 @@ public class User {
         this.address1 = "";
         this.address2 = "";
         this.shopId = "";
-        this.username="";
         this.id = "";
         this.card = "";
         this.totallimit = "";
