@@ -13,7 +13,33 @@ public class User {
     String address1, address2;
     String otp,invoice, amonut, tr;
 
-    int oldinvoice,partnertToltal;
+    int oldinvoice,partnertToltal,settlementAmt;
+
+    public  User(String shop,String partnerCode,int settlementAmt){
+
+      this.settlementAmt=settlementAmt;
+        this.shop = shop;
+        this.partnerCode = partnerCode;
+        this.invoice = "";
+        this.amonut = "";
+        this.totallimit="";
+        this.oldinvoice = 0;
+        this.card = "";
+        this.points="";
+        this.phone = "";
+        this.otp = "";
+        this.username = "";
+        this.password = "";
+        this.address1 = "";
+        this.address2 = "";
+        this.shopId = "";
+        this.id = "";
+        this.city = "";
+        this.name = "";
+        this.pincode = "";
+        this.partnertToltal=partnertToltal;
+
+    }
 
     public User(String card, String partnerCode, String invoice, String amonut, String totallimit,int partnertToltal) {
         this.card = card;

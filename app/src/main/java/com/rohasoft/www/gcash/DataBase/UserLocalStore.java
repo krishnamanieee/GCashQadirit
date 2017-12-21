@@ -42,7 +42,7 @@ public class UserLocalStore {
 
     }
 
-    public String getPoints(){
+    public String getPointsshop(){
         String points=userlocalDatabase.getString("points","");
         return points;
     }

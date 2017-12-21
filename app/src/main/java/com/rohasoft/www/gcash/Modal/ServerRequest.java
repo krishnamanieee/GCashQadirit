@@ -273,12 +273,11 @@ public class ServerRequest {
 
             dataToSend.add(new BasicNameValuePair("partnercode", user.partnerCode));
             dataToSend.add(new BasicNameValuePair("shop", user.shop));
-            Log.e("db card",user.partnerCode+"=="+ user.card);
-            dataToSend.add(new BasicNameValuePair("amount", user.amonut));
+
+            dataToSend.add(new BasicNameValuePair("amount", String.valueOf(user.settlementAmt)));
             dataToSend.add(new BasicNameValuePair("date", date1));
+            Log.e("db card",user.partnerCode+"=="+ user.shop+ user.settlementAmt);
 
-
-            Log.e("user data",user.partnerCode+user.card);
 
 
             HttpParams httpRequestParams = new BasicHttpParams();

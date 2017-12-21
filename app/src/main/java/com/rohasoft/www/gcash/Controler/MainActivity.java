@@ -27,6 +27,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.rohasoft.www.gcash.DataBase.UserLocalStore;
+import com.rohasoft.www.gcash.Modal.GetUserCallBack;
+import com.rohasoft.www.gcash.Modal.ServerRequest;
 import com.rohasoft.www.gcash.Modal.User;
 import com.rohasoft.www.gcash.R;
 
@@ -46,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
 
     UserLocalStore userLocalStore;
 
+    Button mButtonSettlemrnt;
+
     @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mToolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(mToolbar);
-        mToolbar.setLogo(R.drawable.logo);
+       // mToolbar.setLogo(R.drawable.logo);
         mTextViewShopName=(TextView)findViewById(R.id.shopname_textview);
         mTextViewPartnerCard=(TextView)findViewById(R.id.partner_card_textview);
         mTextViewPhone=(TextView)findViewById(R.id.phone_textview);
@@ -61,18 +65,44 @@ public class MainActivity extends AppCompatActivity {
         mTextViewAddress2=(TextView)findViewById(R.id.address2_textview);
         mTextViewCity=(TextView)findViewById(R.id.city_textview);
         mTextViewPoints=(TextView)findViewById(R.id.ponits_text_view);
+        mButtonSettlemrnt=(Button)findViewById(R.id.settlement_btn);
 
 
         userLocalStore=new UserLocalStore(this);
-        User user=userLocalStore.getLoggedUser();
+        final User user=userLocalStore.getLoggedUser();
         mTextViewShopName.setText(user.getShop());
         mTextViewPartnerCard.setText(user.getPartnerCode());
         mTextViewPhone.setText(user.getPhone());
         mTextViewAddress1.setText(user.getAddress1());
         mTextViewAddress2.setText(user.getAddress2());
         mTextViewCity.setText(user.getCity());
-        mTextViewPoints.setText(user.getPoints());
+        mTextViewPoints.setText(userLocalStore.getPointsshop());
         Log.e("TAG Result",user.getPhone());
+
+        mButtonSettlemrnt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String shop=mTextViewShopName.getText().toString();
+                String PartnerCard=mTextViewPartnerCard.getText().toString();
+                int settlementAmt=Integer.parseInt(mTextViewPoints.getText().toString());
+
+                Log.e("ponis from main",settlementAmt+"'");
+
+                User user1=new User(shop,PartnerCard,settlementAmt);
+                ServerRequest serverRequest=new ServerRequest(MainActivity.this);
+                serverRequest.storesettlementInBackground(user1, new GetUserCallBack() {
+                    @Override
+                    public void Done(User returedUser) {
+
+                        userLocalStore.storePoint("0");
+                        mTextViewPoints.setText("0");
+                      //  Toast.makeText(getApplicationContext(),userLocalStore.getPointsshop(),Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+            }
+        });
 
 
 

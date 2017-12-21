@@ -4,8 +4,10 @@
     <modules>
       <module fileurl="file://E:\RohaSoft\qadir\GCash\GCashQadirit\GCash.iml" filepath="E:\RohaSoft\qadir\GCash\GCashQadirit\GCash.iml" />
       <module fileurl="file://$PROJECT_DIR$/GCashQadirit.iml" filepath="$PROJECT_DIR$/GCashQadirit.iml" />
+      <module fileurl="file://E:\Krishna\G\GCashQadirit\GCashQadirit.iml" filepath="E:\Krishna\G\GCashQadirit\GCashQadirit.iml" />
       <module fileurl="file://G:\Rohoosoft\Qadir\GCash\GCashQadirit.iml" filepath="G:\Rohoosoft\Qadir\GCash\GCashQadirit.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://E:\Krishna\G\GCashQadirit\app\app.iml" filepath="E:\Krishna\G\GCashQadirit\app\app.iml" />
     </modules>
   </component>
 </project>
