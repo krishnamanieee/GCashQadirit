@@ -35,7 +35,7 @@ public class ServerRequest {
 
     ProgressDialog progressDialog;
     public static final int CONNECTION_TIMEOUT = 1000 * 15;
-    public static final String SERVER_ADDRESS = "http://app.qadirit.com/";
+    public static final String SERVER_ADDRESS = "http://admin.idusmarket.com/api/";
     Context mContext;
 
     public ServerRequest(Context context) {
@@ -81,25 +81,21 @@ public class ServerRequest {
         @Override
         protected User doInBackground(Void... voids) {
             ArrayList<NameValuePair> dataToSend = new ArrayList<>();
-
             dataToSend.add(new BasicNameValuePair("card", user.card));
-
-
             HttpParams httpRequestParams = new BasicHttpParams();
             HttpConnectionParams.setConnectionTimeout(httpRequestParams, CONNECTION_TIMEOUT);
             HttpConnectionParams.setSoTimeout(httpRequestParams, CONNECTION_TIMEOUT);
 
             HttpClient client = new DefaultHttpClient(httpRequestParams);
             HttpPost post = new HttpPost(SERVER_ADDRESS + "fetchcard.php");
-
             User returnedUser = null;
-
             try {
                 post.setEntity(new UrlEncodedFormEntity(dataToSend));
                 HttpResponse httpResponse = client.execute(post);
 
                 HttpEntity entity = httpResponse.getEntity();
                 String result = EntityUtils.toString(entity);
+                Log.e("result",result);
                 JSONObject jobject = new JSONObject(result);
 
                 if (jobject.length() == 0) {
@@ -107,13 +103,14 @@ public class ServerRequest {
                 } else {
                     String id = jobject.getString("id");
                     String name = jobject.getString("name");
-                    String phone = jobject.getString("phone");
+                    String phone = jobject.getString("phone1");
                     String city = jobject.getString("city");
                     String pincode = jobject.getString("pincode");
                     String card = jobject.getString("card");
                     String totallimit = jobject.getString("totallimit");
+                    String reward = jobject.getString("reward");
 
-                        returnedUser = new User(id,name,card,phone,city,pincode,totallimit) ;
+                        returnedUser = new User(id,name,card,phone,city,pincode,totallimit,reward) ;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -206,12 +203,13 @@ public class ServerRequest {
             dataToSend.add(new BasicNameValuePair("customercard", user.card));
             Log.e("db card",user.partnerCode+"=="+ user.card);
             dataToSend.add(new BasicNameValuePair("invoice", user.invoice));
-            dataToSend.add(new BasicNameValuePair("amount", user.amonut));
+            dataToSend.add(new BasicNameValuePair("amount", user.amount));
+            dataToSend.add(new BasicNameValuePair("reward", user.reward));
             dataToSend.add(new BasicNameValuePair("date", date1));
             dataToSend.add(new BasicNameValuePair("totallimit", user.totallimit));
 
 
-            Log.e("user data",user.partnerCode+user.card);
+            Log.e("user data",dataToSend.toString());
 
             dataToSend.add(new BasicNameValuePair("partnerttoltal", String.valueOf(user.partnertToltal)));
 

@@ -11,7 +11,7 @@ public class User {
     String username, password, shop, phone, card, city, name, pincode, id, totallimit, partnerCode, shopId, points;
 
     String address1, address2;
-    String otp,invoice, amonut, tr;
+    String otp,invoice, amount, tr, reward;
 
     int oldinvoice,partnertToltal,settlementAmt;
 
@@ -21,7 +21,7 @@ public class User {
         this.shop = shop;
         this.partnerCode = partnerCode;
         this.invoice = "";
-        this.amonut = "";
+        this.amount = "";
         this.totallimit="";
         this.oldinvoice = 0;
         this.card = "";
@@ -37,18 +37,20 @@ public class User {
         this.city = "";
         this.name = "";
         this.pincode = "";
+        this.reward = "";
         this.partnertToltal=partnertToltal;
 
     }
 
-    public User(String card, String partnerCode, String invoice, String amonut, String totallimit,int partnertToltal) {
+    public User(String card, String partnerCode, String invoice, String amount, String reward,String totallimit,int partnertToltal) {
         this.card = card;
         this.partnerCode = partnerCode;
         this.invoice = invoice;
-        this.amonut = amonut;
+        this.amount = amount;
         this.totallimit=totallimit;
         this.oldinvoice = 0;
         this.shop = "";
+        this.reward = reward;
         this.points="";
         this.phone = "";
         this.otp = "";
@@ -82,7 +84,8 @@ public class User {
         this.pincode = "";
         this.partnerCode = "";
         this.invoice="";
-        this.amonut="";
+        this.amount="";
+        this.reward = "";
         this.points="";
         this.partnertToltal=0;
     }
@@ -92,6 +95,7 @@ public class User {
         this.phone = phone;
         this.otp = otp;
         this.invoice = "";
+        this.reward = "";
         this.oldinvoice = 0;
         this.points="";
         this.username = "";
@@ -107,7 +111,7 @@ public class User {
         this.pincode = "";
         this.partnerCode = "";
         this.invoice="";
-        this.amonut="";
+        this.amount="";
         this.partnertToltal=0;
     }
 
@@ -121,6 +125,7 @@ public class User {
         this.address1 = "";
         this.address2 = "";
         this.shopId = "";
+        this.reward = "";
         this.id = "";
         this.card = "";
         this.totallimit = "";
@@ -130,7 +135,7 @@ public class User {
         this.partnerCode = "";
         this.invoice="";
         this.points="";
-        this.amonut="";
+        this.amount="";
     }
 
     public User(String card) {
@@ -138,6 +143,7 @@ public class User {
         this.oldinvoice = 0;
         this.username = "";
         this.points="";
+        this.reward = "";
         this.password = "";
         this.shop = "";
         this.phone = "";
@@ -163,15 +169,16 @@ public class User {
         this.name = "";
         this.pincode = pincode;
         this.invoice="";
-        this.amonut="'";
+        this.amount="'";
         this.oldinvoice = 0;
-        this.amonut="";
+        this.amount="";
         this.tr = "'";
         this.shopId = "";
         this.password = "";
         this.shop = shopName;
         this.partnerCode = partnerCode;
         this.otp = "";
+        this.reward = "";
         this.address1 = address1;
         this.address2 = address2;
         this.points=point;
@@ -180,18 +187,19 @@ public class User {
 
 
     }
-    public User(String id, String name, String card, String phone, String city, String pincode, String totallimit) {
+    public User(String id, String name, String card, String phone, String city, String pincode, String totallimit, String reward) {
         this.id = id;
         this.phone = phone;
         this.card = card;
         this.totallimit = totallimit;
         this.city = city;
+        this.reward = reward;
         this.name = name;
         this.pincode = pincode;
         this.invoice="";
-        this.amonut="'";
+        this.amount="'";
         this.oldinvoice = 0;
-        this.amonut="";
+        this.amount="";
         this.tr = "'";
         this.shopId = "";
         this.partnertToltal=0;
@@ -213,11 +221,12 @@ public class User {
         this.card = card;
         this.totallimit = totallimit;
         this.city = city;
+        this.reward = "";
         this.name = name;
         this.pincode = pincode;
         this.invoice=invoice;
-        this.amonut=amount;
-        this.amonut=amount;
+        this.amount=amount;
+        this.amount=amount;
         this.tr = tr;
         this.shopId = "";
         this.password = "";
@@ -234,8 +243,8 @@ public class User {
         this.invoice = invoice;
     }
 
-    public void setAmonut(String amonut) {
-        this.amonut = amonut;
+    public void setamount(String amount) {
+        this.amount = amount;
     }
 
     public void setTr(String tr) {
@@ -370,8 +379,8 @@ public class User {
         return invoice;
     }
 
-    public String getAmonut() {
-        return amonut;
+    public String getamount() {
+        return amount;
     }
 
     public String getTr() {

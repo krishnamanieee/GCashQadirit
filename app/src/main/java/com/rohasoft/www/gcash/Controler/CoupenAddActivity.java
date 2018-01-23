@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +23,7 @@ import java.util.Random;
 
 /**
  * Created by krish on 12/9/2017.
+ *
  */
 
 public class CoupenAddActivity extends AppCompatActivity {
@@ -29,7 +32,8 @@ public class CoupenAddActivity extends AppCompatActivity {
     EditText mEditTextAddPoint,mEditTextInvoice;
     Button mButton;
     int randomNumber, tot=0, temp=0,invoice=0;
-    String ponit;
+    String ponit, amount;
+    RadioGroup mRadioGroup;
 
 
 
@@ -44,7 +48,8 @@ public class CoupenAddActivity extends AppCompatActivity {
         mTextViewPincode = (TextView) findViewById(R.id.inputscreen_pincode_textview);
         mTextViewReScan = (TextView) findViewById(R.id.inputscreen_rescan_textview);
         mEditTextAddPoint = (EditText) findViewById(R.id.inputscreen_add_point_textview);
-        mEditTextInvoice = (EditText) findViewById(R.id.inputscreen_add_invoice_textview);
+        //mEditTextInvoice = (EditText) findViewById(R.id.inputscreen_add_invoice_textview);
+        mRadioGroup=(RadioGroup) findViewById(R.id.radiomode);
 
         mButton = (Button) findViewById(R.id.inputscreen_submit_button);
         String qrValue = getIntent().getExtras().getString("barcode");
@@ -67,11 +72,21 @@ public class CoupenAddActivity extends AppCompatActivity {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ponit = mEditTextAddPoint.getText().toString().trim();
+                int selectRoption=mRadioGroup.getCheckedRadioButtonId();
+                RadioButton mRadioButton=(RadioButton) findViewById(selectRoption);
+                String mOption=mRadioButton.getText().toString();
+
+                if (mOption.equals("Amount")){
+                    ponit = mEditTextAddPoint.getText().toString().trim();
+                    amount=ponit;
+                }else {
+                    ponit = mEditTextAddPoint.getText().toString().trim();
+                    amount = "" ;
+                }
 
                 if (ponit.length() > 0 && ponit.length() < 6) {
 
-                    temp = Integer.parseInt(mEditTextAddPoint.getText().toString());
+                    temp = Integer.parseInt(mEditTextAddPoint.getText().toString().trim());
                   if (temp <= tot) {
 
                         Random r = new Random();
@@ -107,8 +122,9 @@ public class CoupenAddActivity extends AppCompatActivity {
                     intent.putExtra("otp", randomNumber);
                     int resultAmt=tot-temp;
                     intent.putExtra("total", resultAmt);
-                    intent.putExtra("invoice", mEditTextInvoice.getText().toString());
-                    intent.putExtra("amt", temp);
+                    intent.putExtra("invoice",/* mEditTextInvoice.getText().toString()*/ "12");
+                    intent.putExtra("amount", amount);
+                    intent.putExtra("reward", ponit);
                     intent.putExtra("card", mTextViewQrcode.getText().toString());
                     intent.putExtra("cusname", mTextViewName.getText().toString());
 

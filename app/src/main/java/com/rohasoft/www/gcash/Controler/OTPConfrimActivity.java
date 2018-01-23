@@ -24,10 +24,10 @@ public class OTPConfrimActivity extends AppCompatActivity {
 
     EditText mEditTextOTP;
     Button mButtonOTP;
-    int noOtp = 0, total = 0, amt = 0;
+    int noOtp = 0, total = 0, amount = 0, reward = 0;
 
-    String card,invoice,cusname;
-    int newpoint,old;
+    String card, invoice, cusname;
+    int newpoint, old;
 
 
     @Override
@@ -44,7 +44,8 @@ public class OTPConfrimActivity extends AppCompatActivity {
         try {
             noOtp = getIntent().getExtras().getInt("otp");
             total = getIntent().getExtras().getInt("total");
-            amt = getIntent().getExtras().getInt("amt");
+            amount = getIntent().getExtras().getInt("amount");
+            reward = getIntent().getExtras().getInt("reward");
             card = getIntent().getExtras().getString("card");
             invoice = getIntent().getExtras().getString("invoice");
             cusname = getIntent().getExtras().getString("cusname");
@@ -60,15 +61,12 @@ public class OTPConfrimActivity extends AppCompatActivity {
                 if (noOtp == screenOtp) {
                     UserLocalStore userLocalStore = new UserLocalStore(getApplicationContext());
                     User user1 = userLocalStore.getLoggedUser();
-
-                    old=Integer.parseInt(user1.getPoints());
-                    newpoint=old+amt;
-
+                    old = Integer.parseInt(user1.getPoints());
+                    newpoint = old + reward;
 
                     //   Toast.makeText(getApplicationContext(), total + "/" + amt, Toast.LENGTH_SHORT).show();
                     User user = new User(card, user1.getPartnerCode(), String.valueOf(invoice),
-                            String.valueOf(amt), String.valueOf(total),newpoint);
-
+                            String.valueOf(amount), String.valueOf(reward), String.valueOf(total), newpoint);
 
 
                     storedata(user);
@@ -85,18 +83,18 @@ public class OTPConfrimActivity extends AppCompatActivity {
         serverRequest.storePointInBackground(user, new GetUserCallBack() {
             @Override
             public void Done(User returedUser) {
-                UserLocalStore userLocalStore=new UserLocalStore(getApplicationContext());
-                User user1=userLocalStore.getLoggedUser();
+                UserLocalStore userLocalStore = new UserLocalStore(getApplicationContext());
+                User user1 = userLocalStore.getLoggedUser();
 
 
                 userLocalStore.storePoint(String.valueOf(newpoint));
 
                 Intent intent = new Intent(getApplicationContext(), SuccessActivity.class);
-                intent.putExtra("cusname",cusname);
-                intent.putExtra("card",card);
-                Log.e("OTP to Success",card+amt);
-                intent.putExtra("invoice",invoice);
-                intent.putExtra("amt",String.valueOf(amt));
+                intent.putExtra("cusname", cusname);
+                intent.putExtra("card", card);
+                Log.e("OTP to Success", card + amount);
+                intent.putExtra("invoice", invoice);
+                intent.putExtra("amt", String.valueOf(amount));
                 startActivity(intent);
 
             }
@@ -107,6 +105,7 @@ public class OTPConfrimActivity extends AppCompatActivity {
 
     private static final int TIME_DELAY = 2000;
     private static long back_pressed;
+
     @Override
     public void onBackPressed() {
         onBackPressed();
@@ -125,7 +124,6 @@ public class OTPConfrimActivity extends AppCompatActivity {
         }
         back_pressed = System.currentTimeMillis();
     }
-
 
 
 }

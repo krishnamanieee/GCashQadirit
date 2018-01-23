@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         mTextViewAddress2=(TextView)findViewById(R.id.address2_textview);
         mTextViewCity=(TextView)findViewById(R.id.city_textview);
         mTextViewPoints=(TextView)findViewById(R.id.ponits_text_view);
-        mButtonSettlemrnt=(Button)findViewById(R.id.settlement_btn);
+        mButtonSettlemrnt=(Button)findViewById(R.id.apply_settlement_btn);
 
 
         userLocalStore=new UserLocalStore(this);
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                 String PartnerCard=mTextViewPartnerCard.getText().toString();
                 int settlementAmt=Integer.parseInt(mTextViewPoints.getText().toString());
 
-                Log.e("ponis from main",settlementAmt+"'");
+                Log.e("points from main",settlementAmt+"'");
 
                 User user1=new User(shop,PartnerCard,settlementAmt);
                 ServerRequest serverRequest=new ServerRequest(MainActivity.this);
@@ -118,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
     private static long back_pressed;
     @Override
     public void onBackPressed() {
+
         if (back_pressed + TIME_DELAY > System.currentTimeMillis()) {
             Intent intent = new Intent(Intent.ACTION_MAIN);
             intent.addCategory(Intent.CATEGORY_HOME);

@@ -9,6 +9,7 @@ import com.rohasoft.www.gcash.Modal.User;
 
 /**
  * Created by Ayothi selvam on 12/7/2017.
+ *
  */
 
 public class UserLocalStore {

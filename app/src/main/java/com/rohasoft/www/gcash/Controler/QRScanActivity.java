@@ -31,7 +31,7 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 public class QRScanActivity extends AppCompatActivity  implements ZXingScannerView.ResultHandler{
 
     private ZXingScannerView mScannerView;
-    private static final String URL_DATA = "http://app.qadirit.com/fetchdata.php";
+    private static final String URL_DATA = "http://admin.idusmarket.com/api/fetchdata.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

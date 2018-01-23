@@ -151,9 +151,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-
             android:gravity="center">
-            <EditText
+        <!--    <EditText
                 android:id="@+id/inputscreen_add_invoice_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -161,16 +160,44 @@
                 android:hint="Enter Invoice No"
                 android:inputType="text"
                 android:textAlignment="center"
-                android:maxLength="6"/>
-            <EditText
-                android:id="@+id/inputscreen_add_point_textview"
+                android:maxLength="6"/>-->
+            <RadioGroup
+                android:id="@+id/radiomode"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <RadioButton
+                    android:id="@+id/amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Amount"
+                    android:checked="true" />
+
+                <RadioButton
+                    android:id="@+id/reward"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Reward" />
+
+            </RadioGroup>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="5"
-                android:hint="Enter point"
-                android:textAlignment="center"
-                android:inputType="number"
-                android:maxLength="6"/>
+                android:gravity="center"
+                android:layout_marginTop="10dp">
+
+                <EditText
+                    android:id="@+id/inputscreen_add_point_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="8"
+                    android:hint="Enter Amount"
+                    android:textAlignment="center"
+                    android:inputType="number"
+                    android:maxLength="6"/>
+            </LinearLayout>
+
         </LinearLayout>
 
 
