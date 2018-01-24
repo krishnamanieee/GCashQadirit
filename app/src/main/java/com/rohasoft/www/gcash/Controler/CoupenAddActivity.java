@@ -23,18 +23,16 @@ import java.util.Random;
 
 /**
  * Created by krish on 12/9/2017.
- *
  */
 
 public class CoupenAddActivity extends AppCompatActivity {
 
     TextView mTextViewQrcode, mTextViewName, mTextViewPhone, mTextViewCity, mTextViewPincode, mTextViewReScan;
-    EditText mEditTextAddPoint,mEditTextInvoice;
+    EditText mEditTextAddPoint, mEditTextInvoice;
     Button mButton;
-    int randomNumber, tot=0, temp=0,invoice=0;
-    String ponit, amount;
+    int randomNumber, tot = 0, temp = 0, invoice = 0;
+    int ponit, amount;
     RadioGroup mRadioGroup;
-
 
 
     @Override
@@ -49,7 +47,7 @@ public class CoupenAddActivity extends AppCompatActivity {
         mTextViewReScan = (TextView) findViewById(R.id.inputscreen_rescan_textview);
         mEditTextAddPoint = (EditText) findViewById(R.id.inputscreen_add_point_textview);
         //mEditTextInvoice = (EditText) findViewById(R.id.inputscreen_add_invoice_textview);
-        mRadioGroup=(RadioGroup) findViewById(R.id.radiomode);
+        mRadioGroup = (RadioGroup) findViewById(R.id.radiomode);
 
         mButton = (Button) findViewById(R.id.inputscreen_submit_button);
         String qrValue = getIntent().getExtras().getString("barcode");
@@ -72,29 +70,39 @@ public class CoupenAddActivity extends AppCompatActivity {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int selectRoption=mRadioGroup.getCheckedRadioButtonId();
-                RadioButton mRadioButton=(RadioButton) findViewById(selectRoption);
-                String mOption=mRadioButton.getText().toString();
+                int selectRoption = mRadioGroup.getCheckedRadioButtonId();
+                RadioButton mRadioButton = (RadioButton) findViewById(selectRoption);
+                String mOption = mRadioButton.getText().toString();
 
-                if (mOption.equals("Amount")){
-                    ponit = mEditTextAddPoint.getText().toString().trim();
-                    amount=ponit;
-                }else {
-                    ponit = mEditTextAddPoint.getText().toString().trim();
-                    amount = "" ;
+                if (mOption.equals("Amount")) {
+                    try {
+                        ponit = Integer.valueOf(mEditTextAddPoint.getText().toString().trim());
+                        amount = ponit;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                } else {
+                    try {
+                        ponit = Integer.valueOf(mEditTextAddPoint.getText().toString().trim());
+                        amount = 0;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                 }
 
-                if (ponit.length() > 0 && ponit.length() < 6) {
+                if (ponit != 0 ) {
 
                     temp = Integer.parseInt(mEditTextAddPoint.getText().toString().trim());
-                  if (temp <= tot) {
+                    if (temp <= tot) {
 
                         Random r = new Random();
                         randomNumber = r.nextInt(9999);
 
-                        int i=tot-temp;
+                        int i = tot - temp;
 
-                    //  Toast.makeText(getApplicationContext(),""+temp+"/"+tot+"54///" +i,Toast.LENGTH_SHORT).show();
+                        //  Toast.makeText(getApplicationContext(),""+temp+"/"+tot+"54///" +i,Toast.LENGTH_SHORT).show();
 
                         User user1 = new User(user.getShop(), mTextViewPhone.getText().toString(), String.valueOf(randomNumber));
 
@@ -118,17 +126,17 @@ public class CoupenAddActivity extends AppCompatActivity {
             @Override
             public void Done(User returedUser) {
 
-                    Intent intent = new Intent(getApplicationContext(), OTPConfrimActivity.class);
-                    intent.putExtra("otp", randomNumber);
-                    int resultAmt=tot-temp;
-                    intent.putExtra("total", resultAmt);
-                    intent.putExtra("invoice",/* mEditTextInvoice.getText().toString()*/ "12");
-                    intent.putExtra("amount", amount);
-                    intent.putExtra("reward", ponit);
-                    intent.putExtra("card", mTextViewQrcode.getText().toString());
-                    intent.putExtra("cusname", mTextViewName.getText().toString());
+                Intent intent = new Intent(getApplicationContext(), OTPConfrimActivity.class);
+                intent.putExtra("otp", randomNumber);
+                int resultAmt = tot - temp;
+                intent.putExtra("total", resultAmt);
+                intent.putExtra("invoice",/* mEditTextInvoice.getText().toString()*/ "12");
+                intent.putExtra("amount", Integer.valueOf(amount));
+                intent.putExtra("reward", Integer.valueOf(ponit));
+                intent.putExtra("card", mTextViewQrcode.getText().toString());
+                intent.putExtra("cusname", mTextViewName.getText().toString());
 
-                    startActivity(intent);
+                startActivity(intent);
 
 
             }
@@ -146,7 +154,7 @@ public class CoupenAddActivity extends AppCompatActivity {
                     showErrorMessage();
                 } else {
                     CardIn(returedUser);
-                  //  Toast.makeText(getApplicationContext(), "" + returedUser, Toast.LENGTH_SHORT).show();
+                    //  Toast.makeText(getApplicationContext(), "" + returedUser, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -160,9 +168,9 @@ public class CoupenAddActivity extends AppCompatActivity {
         mTextViewCity.setText(returedUser.getCity());
         mTextViewPincode.setText(returedUser.getPincode());
         mTextViewQrcode.setText(returedUser.getCard());
-        tot=Integer.parseInt(returedUser.getTotallimit());
-      //  invoice=Integer.parseInt(returedUser.getInvoice());
-       //Toast.makeText(getApplicationContext(),returedUser.getInvoice(),Toast.LENGTH_SHORT).show();
+        tot = Integer.parseInt(returedUser.getTotallimit());
+        //  invoice=Integer.parseInt(returedUser.getInvoice());
+        //Toast.makeText(getApplicationContext(),returedUser.getInvoice(),Toast.LENGTH_SHORT).show();
     }
 
     private void showErrorMessage() {

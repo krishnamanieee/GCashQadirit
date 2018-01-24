@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mEditTextEmail, mEditTextPassword;
     private Button mButtonLogin;
     UserLocalStore userLocalStore;
-    public static final String SERVER_ADDRESS = "http://admin.idusmarket.com/api/newlogin.php";
+
 
 
 

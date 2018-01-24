@@ -15,7 +15,14 @@ public class User {
 
     int oldinvoice,partnertToltal,settlementAmt;
 
-    public  User(String shop,String partnerCode,int settlementAmt){
+    public User(String partnerCode, String password, String shop, String phone ){
+        this.partnerCode = partnerCode;
+        this.password = password;
+        this.shop = shop;
+        this.phone = phone;
+    }
+
+    public  User(String shop, String partnerCode, int settlementAmt){
 
       this.settlementAmt=settlementAmt;
         this.shop = shop;
@@ -159,7 +166,7 @@ public class User {
         this.username="";
     }
 
-    public  User(String shopName,String point,String partnerCode,String phoneNo,String address1,String address2,String city,
+    public  User(String shopName,String point,String amount,String partnerCode,String phoneNo,String address1,String address2,String city,
                  String pincode, String username){
         this.id = "";
         this.phone = phoneNo;
@@ -169,9 +176,9 @@ public class User {
         this.name = "";
         this.pincode = pincode;
         this.invoice="";
-        this.amount="'";
-        this.oldinvoice = 0;
         this.amount="";
+        this.oldinvoice = 0;
+        this.amount=amount;
         this.tr = "'";
         this.shopId = "";
         this.password = "";
@@ -215,7 +222,7 @@ public class User {
     }
 
 
-    public User(String id, String name, String card, String phone, String city, String pincode, String totallimit, String invoice, String amount,String tr) {
+    public User(String id, String name, String card, String phone, String city, String pincode, String totallimit, String invoice, String amount,String tr,String w) {
         this.id = id;
         this.phone = phone;
         this.card = card;

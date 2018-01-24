@@ -42,7 +42,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     Toolbar mToolbar;
-    TextView mTextViewShopName,mTextViewPartnerCard,mTextViewPhone,mTextViewAddress1,mTextViewAddress2,mTextViewCity,mTextViewPoints;
+    TextView mTextViewShopName,mTextViewPartnerCard,mTextViewPhone,mTextViewAddress1,mTextViewAddress2,mTextViewCity,mTextViewPoints,mTextViewAmount;
 
     public static final int REQUEST_CODE = 100;
 
@@ -65,7 +65,9 @@ public class MainActivity extends AppCompatActivity {
         mTextViewAddress2=(TextView)findViewById(R.id.address2_textview);
         mTextViewCity=(TextView)findViewById(R.id.city_textview);
         mTextViewPoints=(TextView)findViewById(R.id.ponits_text_view);
+        mTextViewAmount=(TextView)findViewById(R.id.amt_text_view);
         mButtonSettlemrnt=(Button)findViewById(R.id.apply_settlement_btn);
+
 
 
         userLocalStore=new UserLocalStore(this);
@@ -77,8 +79,17 @@ public class MainActivity extends AppCompatActivity {
         mTextViewAddress2.setText(user.getAddress2());
         mTextViewCity.setText(user.getCity());
         mTextViewPoints.setText(userLocalStore.getPointsshop());
+        mTextViewAmount.setText(userLocalStore.getamountsshop());
         Log.e("TAG Result",user.getPhone());
+        findViewById(R.id.settlement_history_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                Intent mIntent=new Intent(MainActivity.this,SettlementHistoryActivity.class);
+                mIntent.putExtra("PartnerCode",mTextViewPartnerCard.getText().toString());
+                startActivity(mIntent);
+            }
+        });
         mButtonSettlemrnt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void Done(User returedUser) {
 
-                        userLocalStore.storePoint("0");
+                        userLocalStore.storeamount("0");
                         mTextViewPoints.setText("0");
                       //  Toast.makeText(getApplicationContext(),userLocalStore.getPointsshop(),Toast.LENGTH_SHORT).show();
 

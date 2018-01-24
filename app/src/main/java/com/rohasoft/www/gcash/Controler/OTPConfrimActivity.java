@@ -87,7 +87,7 @@ public class OTPConfrimActivity extends AppCompatActivity {
                 User user1 = userLocalStore.getLoggedUser();
 
 
-                userLocalStore.storePoint(String.valueOf(newpoint));
+                userLocalStore.storeamount(String.valueOf(newpoint));
 
                 Intent intent = new Intent(getApplicationContext(), SuccessActivity.class);
                 intent.putExtra("cusname", cusname);

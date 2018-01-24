@@ -69,6 +69,11 @@ public class ServerRequest {
         new sendOtpAsyncTask(user, callBack).execute();
     }
 
+    public void settlementhistoryBackground(User settlement, GetSettlementCallBack callBack) {
+        progressDialog.show();
+        new settlementhistoryAsyncTask(settlement, callBack).execute();
+    }
+
     private class FetchCardDataAsyncTask extends AsyncTask<Void, Void, User> {
         User user;
         GetUserCallBack getUserCallBack;
@@ -195,7 +200,7 @@ public class ServerRequest {
         @Override
         protected User doInBackground(Void... voids) {
             ArrayList<NameValuePair> dataToSend = new ArrayList<>();
-            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
             Date date = new Date();
             String date1=dateFormat.format(date);
 
@@ -227,7 +232,9 @@ public class ServerRequest {
                 HttpResponse httpResponse = client.execute(post);
 
                 HttpEntity entity = httpResponse.getEntity();
+
                 String result = EntityUtils.toString(entity);
+                Log.e("repansone",result);
                 JSONObject jobject = new JSONObject(result);
 
                 if (jobject.length() == 0) {
@@ -369,8 +376,9 @@ public class ServerRequest {
                     String address2 = jobject.getString("address2");
                     String city = jobject.getString("city");
                     String ponits = jobject.getString("point");
+                    String amount = jobject.getString("amount");
                     String pincode = jobject.getString("pincode");
-                    returnedUser = new User(shop,ponits,partnerCode,phone,address1,address2,city,pincode,username);
+                    returnedUser = new User(shop,ponits,amount,partnerCode,phone,address1,address2,city,pincode,username);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -385,6 +393,78 @@ public class ServerRequest {
             userCallback.Done(user);
             super.onPostExecute(user);
         }
+    }
+
+    private class settlementhistoryAsyncTask extends AsyncTask<Void, Void, Settlement> {
+        User settlement;
+        GetSettlementCallBack userCallback;
+
+        public settlementhistoryAsyncTask(User settlement, GetSettlementCallBack userCallback) {
+
+            this.settlement = settlement;
+            this.userCallback = userCallback;
+        }
+
+        @Override
+        protected void onPostExecute(Settlement settlement) {
+            progressDialog.dismiss();
+            super.onPostExecute(settlement);
+            userCallback.Done(settlement);
+        }
+
+        @Override
+        protected Settlement doInBackground(Void... voids) {
+            ArrayList<NameValuePair> dataToSend = new ArrayList<>();
+
+            dataToSend.add(new BasicNameValuePair("partnercode", settlement.partnerCode));
+
+
+            HttpParams httpRequestParams = new BasicHttpParams();
+            HttpConnectionParams.setConnectionTimeout(httpRequestParams, CONNECTION_TIMEOUT);
+            HttpConnectionParams.setSoTimeout(httpRequestParams, CONNECTION_TIMEOUT);
+
+            HttpClient client = new DefaultHttpClient(httpRequestParams);
+            HttpPost post = new HttpPost(SERVER_ADDRESS + "settlement_history.php");
+
+            Settlement returnedSettlement = null;
+
+            try {
+                post.setEntity(new UrlEncodedFormEntity(dataToSend));
+                HttpResponse httpResponse = client.execute(post);
+
+                HttpEntity entity = httpResponse.getEntity();
+                String result = EntityUtils.toString(entity);
+                Log.e("Response", result);
+
+                JSONObject jobject = new JSONObject(result);
+
+                if (jobject.length() == 0) {
+                    returnedSettlement = null;
+                } else {
+
+                    returnedSettlement=new Settlement(jobject.toString(),"","");
+//                    String shopId = jobject.getString("id");
+//                    String shop = jobject.getString("shop");
+//                    String username = jobject.getString("username");
+//                    String password = jobject.getString("password");
+//                    String phone = jobject.getString("phone");
+//                    String partnerCode = jobject.getString("partnercode");
+//                    String address1 = jobject.getString("address1");
+//                    String address2 = jobject.getString("address2");
+//                    String city = jobject.getString("city");
+//                    String ponits = jobject.getString("point");
+//                    String amount = jobject.getString("amount");
+//                    String pincode = jobject.getString("pincode");
+//                    returnedUser = new User(shop, ponits, amount, partnerCode, phone, address1, address2, city, pincode, username);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return returnedSettlement;
+        }
+
+
     }
 
 
