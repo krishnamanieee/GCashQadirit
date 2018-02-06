@@ -31,7 +31,7 @@ public class CoupenAddActivity extends AppCompatActivity {
     EditText mEditTextAddPoint, mEditTextInvoice;
     Button mButton;
     int randomNumber, tot = 0, temp = 0, invoice = 0;
-    int ponit, amount;
+    int reward, amount;
     RadioGroup mRadioGroup;
 
 
@@ -76,15 +76,15 @@ public class CoupenAddActivity extends AppCompatActivity {
 
                 if (mOption.equals("Amount")) {
                     try {
-                        ponit = Integer.valueOf(mEditTextAddPoint.getText().toString().trim());
-                        amount = ponit;
+                        amount = Integer.valueOf(mEditTextAddPoint.getText().toString().trim());
+                        reward = reward + amount;
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
 
                 } else {
                     try {
-                        ponit = Integer.valueOf(mEditTextAddPoint.getText().toString().trim());
+                        reward = reward + Integer.valueOf(mEditTextAddPoint.getText().toString().trim());
                         amount = 0;
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -92,9 +92,9 @@ public class CoupenAddActivity extends AppCompatActivity {
 
                 }
 
-                if (ponit != 0 ) {
+                if (reward != 0) {
 
-                    temp = Integer.parseInt(mEditTextAddPoint.getText().toString().trim());
+                    temp = amount;
                     if (temp <= tot) {
 
                         Random r = new Random();
@@ -131,8 +131,9 @@ public class CoupenAddActivity extends AppCompatActivity {
                 int resultAmt = tot - temp;
                 intent.putExtra("total", resultAmt);
                 intent.putExtra("invoice",/* mEditTextInvoice.getText().toString()*/ "12");
-                intent.putExtra("amount", Integer.valueOf(amount));
-                intent.putExtra("reward", Integer.valueOf(ponit));
+                intent.putExtra("amount", amount);
+                intent.putExtra("reward", Integer.valueOf(reward));
+                intent.putExtra("rewardPoint", Integer.valueOf(mEditTextAddPoint.getText().toString().trim()));
                 intent.putExtra("card", mTextViewQrcode.getText().toString());
                 intent.putExtra("cusname", mTextViewName.getText().toString());
 
@@ -169,6 +170,7 @@ public class CoupenAddActivity extends AppCompatActivity {
         mTextViewPincode.setText(returedUser.getPincode());
         mTextViewQrcode.setText(returedUser.getCard());
         tot = Integer.parseInt(returedUser.getTotallimit());
+        reward = Integer.parseInt(returedUser.getReward());
         //  invoice=Integer.parseInt(returedUser.getInvoice());
         //Toast.makeText(getApplicationContext(),returedUser.getInvoice(),Toast.LENGTH_SHORT).show();
     }

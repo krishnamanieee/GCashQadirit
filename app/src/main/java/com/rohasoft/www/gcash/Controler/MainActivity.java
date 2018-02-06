@@ -42,7 +42,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     Toolbar mToolbar;
-    TextView mTextViewShopName,mTextViewPartnerCard,mTextViewPhone,mTextViewAddress1,mTextViewAddress2,mTextViewCity,mTextViewPoints,mTextViewAmount;
+    TextView mTextViewShopName, mTextViewPartnerCard, mTextViewPhone, mTextViewAddress1, mTextViewAddress2, mTextViewCity, mTextViewAmount;
 
     public static final int REQUEST_CODE = 100;
 
@@ -57,36 +57,32 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mToolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(mToolbar);
-       // mToolbar.setLogo(R.drawable.logo);
-        mTextViewShopName=(TextView)findViewById(R.id.shopname_textview);
-        mTextViewPartnerCard=(TextView)findViewById(R.id.partner_card_textview);
-        mTextViewPhone=(TextView)findViewById(R.id.phone_textview);
-        mTextViewAddress1=(TextView)findViewById(R.id.address1_textview);
-        mTextViewAddress2=(TextView)findViewById(R.id.address2_textview);
-        mTextViewCity=(TextView)findViewById(R.id.city_textview);
-        mTextViewPoints=(TextView)findViewById(R.id.ponits_text_view);
-        mTextViewAmount=(TextView)findViewById(R.id.amt_text_view);
-        mButtonSettlemrnt=(Button)findViewById(R.id.apply_settlement_btn);
+        mTextViewShopName = (TextView) findViewById(R.id.shopname_textview);
+        mTextViewPartnerCard = (TextView) findViewById(R.id.partner_card_textview);
+        mTextViewPhone = (TextView) findViewById(R.id.phone_textview);
+        mTextViewAddress1 = (TextView) findViewById(R.id.address1_textview);
+        mTextViewAddress2 = (TextView) findViewById(R.id.address2_textview);
+        mTextViewCity = (TextView) findViewById(R.id.city_textview);
+        mTextViewAmount = (TextView) findViewById(R.id.ponits_text_view);
+        mButtonSettlemrnt = (Button) findViewById(R.id.apply_settlement_btn);
 
 
-
-        userLocalStore=new UserLocalStore(this);
-        final User user=userLocalStore.getLoggedUser();
+        userLocalStore = new UserLocalStore(this);
+        final User user = userLocalStore.getLoggedUser();
         mTextViewShopName.setText(user.getShop());
         mTextViewPartnerCard.setText(user.getPartnerCode());
         mTextViewPhone.setText(user.getPhone());
         mTextViewAddress1.setText(user.getAddress1());
         mTextViewAddress2.setText(user.getAddress2());
         mTextViewCity.setText(user.getCity());
-        mTextViewPoints.setText(userLocalStore.getPointsshop());
         mTextViewAmount.setText(userLocalStore.getamountsshop());
-        Log.e("TAG Result",user.getPhone());
+        Log.e("TAG Result", user.getPhone());
         findViewById(R.id.settlement_history_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Intent mIntent=new Intent(MainActivity.this,SettlementHistoryActivity.class);
-                mIntent.putExtra("PartnerCode",mTextViewPartnerCard.getText().toString());
+                Intent mIntent = new Intent(MainActivity.this, SettlementHistoryActivity.class);
+                mIntent.putExtra("PartnerCode", mTextViewPartnerCard.getText().toString());
                 startActivity(mIntent);
             }
         });
@@ -94,27 +90,26 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String shop=mTextViewShopName.getText().toString();
-                String PartnerCard=mTextViewPartnerCard.getText().toString();
-                int settlementAmt=Integer.parseInt(mTextViewPoints.getText().toString());
+                String shop = mTextViewShopName.getText().toString();
+                String PartnerCard = mTextViewPartnerCard.getText().toString();
+                int settlementAmt = Integer.parseInt(mTextViewAmount.getText().toString());
 
-                Log.e("points from main",settlementAmt+"'");
+                Log.e("points from main", settlementAmt + "'");
 
-                User user1=new User(shop,PartnerCard,settlementAmt);
-                ServerRequest serverRequest=new ServerRequest(MainActivity.this);
+                User user1 = new User(shop, PartnerCard, settlementAmt);
+                ServerRequest serverRequest = new ServerRequest(MainActivity.this);
                 serverRequest.storesettlementInBackground(user1, new GetUserCallBack() {
                     @Override
                     public void Done(User returedUser) {
 
                         userLocalStore.storeamount("0");
-                        mTextViewPoints.setText("0");
-                      //  Toast.makeText(getApplicationContext(),userLocalStore.getPointsshop(),Toast.LENGTH_SHORT).show();
+                        mTextViewAmount.setText("0");
+                        //  Toast.makeText(getApplicationContext(),userLocalStore.getPointsshop(),Toast.LENGTH_SHORT).show();
 
                     }
                 });
             }
         });
-
 
 
     }
@@ -127,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int TIME_DELAY = 2000;
     private static long back_pressed;
+
     @Override
     public void onBackPressed() {
 
@@ -157,4 +153,4 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    }
+}

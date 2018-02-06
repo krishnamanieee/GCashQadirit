@@ -24,10 +24,10 @@ public class OTPConfrimActivity extends AppCompatActivity {
 
     EditText mEditTextOTP;
     Button mButtonOTP;
-    int noOtp = 0, total = 0, amount = 0, reward = 0;
+    int noOtp = 0, total = 0, amount = 0, reward = 0, rewardPoint = 0;
 
     String card, invoice, cusname;
-    int newpoint, old;
+    int shopPoint, old;
 
 
     @Override
@@ -46,6 +46,7 @@ public class OTPConfrimActivity extends AppCompatActivity {
             total = getIntent().getExtras().getInt("total");
             amount = getIntent().getExtras().getInt("amount");
             reward = getIntent().getExtras().getInt("reward");
+            rewardPoint = getIntent().getExtras().getInt("rewardPoint");
             card = getIntent().getExtras().getString("card");
             invoice = getIntent().getExtras().getString("invoice");
             cusname = getIntent().getExtras().getString("cusname");
@@ -61,12 +62,12 @@ public class OTPConfrimActivity extends AppCompatActivity {
                 if (noOtp == screenOtp) {
                     UserLocalStore userLocalStore = new UserLocalStore(getApplicationContext());
                     User user1 = userLocalStore.getLoggedUser();
-                    old = Integer.parseInt(user1.getPoints());
-                    newpoint = old + reward;
+                    old = Integer.parseInt(user1.getamount());
+                    shopPoint = old + amount;
 
                     //   Toast.makeText(getApplicationContext(), total + "/" + amt, Toast.LENGTH_SHORT).show();
                     User user = new User(card, user1.getPartnerCode(), String.valueOf(invoice),
-                            String.valueOf(amount), String.valueOf(reward), String.valueOf(total), newpoint);
+                            String.valueOf(amount), String.valueOf(reward), String.valueOf(total), shopPoint);
 
 
                     storedata(user);
@@ -87,7 +88,7 @@ public class OTPConfrimActivity extends AppCompatActivity {
                 User user1 = userLocalStore.getLoggedUser();
 
 
-                userLocalStore.storeamount(String.valueOf(newpoint));
+                userLocalStore.storeamount(String.valueOf(shopPoint));
 
                 Intent intent = new Intent(getApplicationContext(), SuccessActivity.class);
                 intent.putExtra("cusname", cusname);
@@ -95,6 +96,8 @@ public class OTPConfrimActivity extends AppCompatActivity {
                 Log.e("OTP to Success", card + amount);
                 intent.putExtra("invoice", invoice);
                 intent.putExtra("amt", String.valueOf(amount));
+                intent.putExtra("reward", String.valueOf(reward));
+                intent.putExtra("rewardPoint", String.valueOf(rewardPoint));
                 startActivity(intent);
 
             }

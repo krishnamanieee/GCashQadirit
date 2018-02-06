@@ -39,7 +39,7 @@ public class ServerRequest {
     Context mContext;
 
     public ServerRequest(Context context) {
-        this.mContext=context;
+        this.mContext = context;
         progressDialog = new ProgressDialog(context);
         progressDialog.setCancelable(false);
         progressDialog.setTitle("processing");
@@ -50,10 +50,12 @@ public class ServerRequest {
         progressDialog.show();
         new FetchUserDataAsyncTask(user, callBack).execute();
     }
+
     public void storePointInBackground(User user, GetUserCallBack callBack) {
         progressDialog.show();
         new StorePointAsyncTask(user, callBack).execute();
     }
+
     public void storesettlementInBackground(User user, GetUserCallBack callBack) {
         progressDialog.show();
         new StoresettlementAsyncTask(user, callBack).execute();
@@ -63,12 +65,10 @@ public class ServerRequest {
         progressDialog.show();
         new FetchCardDataAsyncTask(user, callBack).execute();
     }
-
     public void sendOtpInBackground(User user, GetUserCallBack callBack) {
         progressDialog.show();
         new sendOtpAsyncTask(user, callBack).execute();
     }
-
     public void settlementhistoryBackground(User settlement, GetSettlementCallBack callBack) {
         progressDialog.show();
         new settlementhistoryAsyncTask(settlement, callBack).execute();
@@ -93,6 +93,9 @@ public class ServerRequest {
 
             HttpClient client = new DefaultHttpClient(httpRequestParams);
             HttpPost post = new HttpPost(SERVER_ADDRESS + "fetchcard.php");
+
+            Log.e("input", dataToSend.toString());
+            Log.e("input", post.getURI().toString());
             User returnedUser = null;
             try {
                 post.setEntity(new UrlEncodedFormEntity(dataToSend));
@@ -100,7 +103,7 @@ public class ServerRequest {
 
                 HttpEntity entity = httpResponse.getEntity();
                 String result = EntityUtils.toString(entity);
-                Log.e("result",result);
+                Log.e("result", result);
                 JSONObject jobject = new JSONObject(result);
 
                 if (jobject.length() == 0) {
@@ -115,7 +118,7 @@ public class ServerRequest {
                     String totallimit = jobject.getString("totallimit");
                     String reward = jobject.getString("reward");
 
-                        returnedUser = new User(id,name,card,phone,city,pincode,totallimit,reward) ;
+                    returnedUser = new User(id, name, card, phone, city, pincode, totallimit, reward);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -131,6 +134,7 @@ public class ServerRequest {
             super.onPostExecute(user);
         }
     }
+
     private class sendOtpAsyncTask extends AsyncTask<Void, Void, User> {
         User user;
         GetUserCallBack getUserCallBack;
@@ -153,6 +157,8 @@ public class ServerRequest {
             HttpClient client = new DefaultHttpClient(httpRequestParams);
             HttpPost post = new HttpPost(SERVER_ADDRESS + "otp.php");
 
+            Log.e("input", dataToSend.toString());
+            Log.e("input", post.getURI().toString());
             User returnedUser = null;
 
             try {
@@ -163,14 +169,14 @@ public class ServerRequest {
                 String result = EntityUtils.toString(entity);
                 JSONObject jobject = new JSONObject(result);
 
+                Log.e("result", result);
                 if (jobject.length() == 0) {
                     returnedUser = null;
                 } else {
-                    int i =Integer.parseInt(jobject.getString("invoice"));
-                    UserLocalStore userLocalStore=new UserLocalStore(mContext);
+                    int i = Integer.parseInt(jobject.getString("invoice"));
+                    UserLocalStore userLocalStore = new UserLocalStore(mContext);
 
-                    returnedUser =new User(i);
-
+                    returnedUser = new User(i);
 
 
                 }
@@ -188,6 +194,7 @@ public class ServerRequest {
             super.onPostExecute(user);
         }
     }
+
     private class StorePointAsyncTask extends AsyncTask<Void, Void, User> {
         User user;
         GetUserCallBack getUserCallBack;
@@ -200,21 +207,18 @@ public class ServerRequest {
         @Override
         protected User doInBackground(Void... voids) {
             ArrayList<NameValuePair> dataToSend = new ArrayList<>();
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             Date date = new Date();
-            String date1=dateFormat.format(date);
+            String date1 = dateFormat.format(date);
 
             dataToSend.add(new BasicNameValuePair("partnercode", user.partnerCode));
             dataToSend.add(new BasicNameValuePair("customercard", user.card));
-            Log.e("db card",user.partnerCode+"=="+ user.card);
+            Log.e("db card", user.partnerCode + "==" + user.card);
             dataToSend.add(new BasicNameValuePair("invoice", user.invoice));
             dataToSend.add(new BasicNameValuePair("amount", user.amount));
             dataToSend.add(new BasicNameValuePair("reward", user.reward));
             dataToSend.add(new BasicNameValuePair("date", date1));
             dataToSend.add(new BasicNameValuePair("totallimit", user.totallimit));
-
-
-            Log.e("user data",dataToSend.toString());
 
             dataToSend.add(new BasicNameValuePair("partnerttoltal", String.valueOf(user.partnertToltal)));
 
@@ -224,6 +228,8 @@ public class ServerRequest {
 
             HttpClient client = new DefaultHttpClient(httpRequestParams);
             HttpPost post = new HttpPost(SERVER_ADDRESS + "storepoint.php");
+            Log.e("input", dataToSend.toString());
+            Log.e("input", post.getURI().toString());
 
             User returnedUser = null;
 
@@ -234,14 +240,13 @@ public class ServerRequest {
                 HttpEntity entity = httpResponse.getEntity();
 
                 String result = EntityUtils.toString(entity);
-                Log.e("repansone",result);
+                Log.e("repansone", result);
                 JSONObject jobject = new JSONObject(result);
 
                 if (jobject.length() == 0) {
                     returnedUser = null;
                 } else {
-                   returnedUser =new User(user.partnerCode);
-
+                    returnedUser = new User(user.partnerCode);
 
 
                 }
@@ -274,15 +279,14 @@ public class ServerRequest {
             ArrayList<NameValuePair> dataToSend = new ArrayList<>();
             DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
             Date date = new Date();
-            String date1=dateFormat.format(date);
+            String date1 = dateFormat.format(date);
 
             dataToSend.add(new BasicNameValuePair("partnercode", user.partnerCode));
             dataToSend.add(new BasicNameValuePair("shop", user.shop));
 
             dataToSend.add(new BasicNameValuePair("amount", String.valueOf(user.settlementAmt)));
             dataToSend.add(new BasicNameValuePair("date", date1));
-            Log.e("db card",user.partnerCode+"=="+ user.shop+ user.settlementAmt);
-
+            Log.e("db card", user.partnerCode + "==" + user.shop + user.settlementAmt);
 
 
             HttpParams httpRequestParams = new BasicHttpParams();
@@ -292,6 +296,8 @@ public class ServerRequest {
             HttpClient client = new DefaultHttpClient(httpRequestParams);
             HttpPost post = new HttpPost(SERVER_ADDRESS + "settlement.php");
 
+            Log.e("input", dataToSend.toString());
+            Log.e("input", post.getURI().toString());
             User returnedUser = null;
 
             try {
@@ -305,8 +311,7 @@ public class ServerRequest {
                 if (jobject.length() == 0) {
                     returnedUser = null;
                 } else {
-                   returnedUser =new User(user.partnerCode);
-
+                    returnedUser = new User(user.partnerCode);
 
 
                 }
@@ -341,7 +346,7 @@ public class ServerRequest {
 
             dataToSend.add(new BasicNameValuePair("username", user.username));
             dataToSend.add(new BasicNameValuePair("password", user.password));
-            Log.e("TAG",user.username+user.password);
+            Log.e("TAG", user.username + user.password);
 
 
             HttpParams httpRequestParams = new BasicHttpParams();
@@ -351,6 +356,8 @@ public class ServerRequest {
             HttpClient client = new DefaultHttpClient(httpRequestParams);
             HttpPost post = new HttpPost(SERVER_ADDRESS + "newlogin.php");
 
+            Log.e("input", dataToSend.toString());
+            Log.e("input", post.getURI().toString());
             User returnedUser = null;
 
             try {
@@ -359,7 +366,7 @@ public class ServerRequest {
 
                 HttpEntity entity = httpResponse.getEntity();
                 String result = EntityUtils.toString(entity);
-                Log.e("TSG",result);
+                Log.e("TSG", result);
 
                 JSONObject jobject = new JSONObject(result);
 
@@ -376,9 +383,8 @@ public class ServerRequest {
                     String address2 = jobject.getString("address2");
                     String city = jobject.getString("city");
                     String ponits = jobject.getString("point");
-                    String amount = jobject.getString("amount");
                     String pincode = jobject.getString("pincode");
-                    returnedUser = new User(shop,ponits,amount,partnerCode,phone,address1,address2,city,pincode,username);
+                    returnedUser = new User(shop, ponits, partnerCode, phone, address1, address2, city, pincode, username);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -426,6 +432,8 @@ public class ServerRequest {
             HttpClient client = new DefaultHttpClient(httpRequestParams);
             HttpPost post = new HttpPost(SERVER_ADDRESS + "settlement_history.php");
 
+            Log.e("input", dataToSend.toString());
+            Log.e("input", post.getURI().toString());
             Settlement returnedSettlement = null;
 
             try {
@@ -442,7 +450,7 @@ public class ServerRequest {
                     returnedSettlement = null;
                 } else {
 
-                    returnedSettlement=new Settlement(jobject.toString(),"","");
+                    returnedSettlement = new Settlement(jobject.toString(), "", "");
 //                    String shopId = jobject.getString("id");
 //                    String shop = jobject.getString("shop");
 //                    String username = jobject.getString("username");

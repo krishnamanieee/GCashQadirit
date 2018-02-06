@@ -12,7 +12,9 @@ import com.rohasoft.www.gcash.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by krish on 1/24/2018.
@@ -59,6 +61,17 @@ public class SettlementHistoryAdapter extends BaseAdapter {
 
         try {
             if (mJsonArray.getJSONObject(i).has("date")) {
+//                String strCurrentDate = mJsonArray.getJSONObject(i).getString("date");
+//                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+//                Date newDate = null;
+//                try {
+//                    newDate = format.parse(strCurrentDate);
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                format = new SimpleDateFormat("dd-MM-yyyy");
+//                String date = format.format(newDate);
                 mDateTextView.setText(mJsonArray.getJSONObject(i).getString("date"));
             }
         } catch (JSONException e) {

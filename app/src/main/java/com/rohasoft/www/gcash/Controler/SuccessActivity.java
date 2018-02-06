@@ -62,6 +62,7 @@ public class SuccessActivity extends AppCompatActivity {
         }catch (Exception e){
 
         }
+        TextView mTextView = (TextView ) findViewById(R.id.success_tpoint_textview);
         UserLocalStore userLocalStore=new UserLocalStore(this);
 
         User user=userLocalStore.getLoggedUser();
@@ -70,6 +71,12 @@ public class SuccessActivity extends AppCompatActivity {
         mTextViewShopName.setText(user.getShop());
         mTextViewCard.setText(user.getPartnerCode());
         mTextViewPoint.setText(amt);
+        mTextView.setText("Amount");
+        if (Integer.parseInt(amt) == 0){
+            mTextViewPoint.setText(getIntent().getExtras().getString("rewardPoint"));
+
+            mTextView.setText("Reward");
+        }
         mTextViewInvoice.setText(invoive);
         mTextViewDate.setText(date1);
         mButtonDone.setOnClickListener(new View.OnClickListener() {

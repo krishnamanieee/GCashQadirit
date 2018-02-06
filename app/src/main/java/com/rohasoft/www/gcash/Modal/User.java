@@ -9,10 +9,8 @@ import android.util.Log;
 public class User {
 
     String username, password, shop, phone, card, city, name, pincode, id, totallimit, partnerCode, shopId, points;
-
     String address1, address2;
     String otp,invoice, amount, tr, reward;
-
     int oldinvoice,partnertToltal,settlementAmt;
 
     public User(String partnerCode, String password, String shop, String phone ){
@@ -166,7 +164,7 @@ public class User {
         this.username="";
     }
 
-    public  User(String shopName,String point,String amount,String partnerCode,String phoneNo,String address1,String address2,String city,
+    public  User(String shopName,String amount,String partnerCode,String phoneNo,String address1,String address2,String city,
                  String pincode, String username){
         this.id = "";
         this.phone = phoneNo;
@@ -188,7 +186,6 @@ public class User {
         this.reward = "";
         this.address1 = address1;
         this.address2 = address2;
-        this.points=point;
         this.username=username;
 
 
@@ -405,5 +402,17 @@ public class User {
 
     public int getPartnertToltal() {
         return partnertToltal;
+    }
+
+    public String getAmount() {
+        return amount;
+    }
+
+    public String getReward() {
+        return reward;
+    }
+
+    public int getSettlementAmt() {
+        return settlementAmt;
     }
 }
