@@ -1,4 +1,4 @@
-package com.rohasoft.www.gcash.Modal;
+package com.rohasoft.www.gcash.modal;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -22,6 +22,18 @@ public class Commons {
         }
         try {
             DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+            date1 = inputFormat.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        try {
+            DateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy");
+            date1 = inputFormat.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        try {
+            DateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
             date1 = inputFormat.parse(date);
         } catch (ParseException e) {
             e.printStackTrace();

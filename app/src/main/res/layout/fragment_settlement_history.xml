@@ -21,8 +21,7 @@
             android:layout_height="wrap_content"
             android:text="Pay Status"
             android:layout_weight=".8"/>
-
-    </LinearLayout>
+</LinearLayout>
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"

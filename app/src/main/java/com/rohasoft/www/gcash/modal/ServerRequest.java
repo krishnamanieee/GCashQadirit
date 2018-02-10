@@ -1,12 +1,11 @@
-package com.rohasoft.www.gcash.Modal;
+package com.rohasoft.www.gcash.modal;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.rohasoft.www.gcash.DataBase.UserLocalStore;
+import com.rohasoft.www.gcash.modal.dataBase.UserLocalStore;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -73,6 +72,10 @@ public class ServerRequest {
         progressDialog.show();
         new settlementhistoryAsyncTask(settlement, callBack).execute();
     }
+    public void transactionHistoryBackground(User settlement, GetSettlementCallBack callBack) {
+        progressDialog.show();
+        new transactionHistoryAsyncTask(settlement, callBack).execute();
+    }
 
     private class FetchCardDataAsyncTask extends AsyncTask<Void, Void, User> {
         User user;
@@ -117,8 +120,10 @@ public class ServerRequest {
                     String card = jobject.getString("card");
                     String totallimit = jobject.getString("totallimit");
                     String reward = jobject.getString("reward");
+                    String shops = jobject.getString("shops");
+                    new User().setShop(shops);
 
-                    returnedUser = new User(id, name, card, phone, city, pincode, totallimit, reward);
+                    returnedUser = new User(id, name, card, phone, city, pincode, totallimit, jobject);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -221,6 +226,7 @@ public class ServerRequest {
             dataToSend.add(new BasicNameValuePair("date", date1));
             dataToSend.add(new BasicNameValuePair("totallimit", user.totallimit));
             dataToSend.add(new BasicNameValuePair("phone", user.phone));
+            dataToSend.add(new BasicNameValuePair("customerName", user.name));
 
             dataToSend.add(new BasicNameValuePair("partnerttoltal", String.valueOf(user.partnertToltal)));
 
@@ -375,6 +381,8 @@ public class ServerRequest {
                 if (jobject.length() == 0) {
                     returnedUser = null;
                 } else {
+                    UserLocalStore mUserLocalStore=new UserLocalStore(mContext);
+                    mUserLocalStore.setId(Integer.parseInt(jobject.getString("id")));
                     String shopId = jobject.getString("id");
                     String shop = jobject.getString("shop");
                     String username = jobject.getString("username");
@@ -433,6 +441,66 @@ public class ServerRequest {
 
             HttpClient client = new DefaultHttpClient(httpRequestParams);
             HttpPost post = new HttpPost(SERVER_ADDRESS + "settlement_history.php");
+
+            Log.e("input", dataToSend.toString());
+            Log.e("input", post.getURI().toString());
+            Settlement returnedSettlement = null;
+
+            try {
+                post.setEntity(new UrlEncodedFormEntity(dataToSend));
+                HttpResponse httpResponse = client.execute(post);
+
+                HttpEntity entity = httpResponse.getEntity();
+                String result = EntityUtils.toString(entity);
+                Log.e("Response", result);
+
+                JSONObject jobject = new JSONObject(result);
+
+                if (jobject.length() == 0) {
+                    returnedSettlement = null;
+                } else {
+
+                    returnedSettlement = new Settlement(jobject.toString(), "", "");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return returnedSettlement;
+        }
+
+
+    }
+    private class transactionHistoryAsyncTask extends AsyncTask<Void, Void, Settlement> {
+        User settlement;
+        GetSettlementCallBack userCallback;
+
+        public transactionHistoryAsyncTask(User settlement, GetSettlementCallBack userCallback) {
+
+            this.settlement = settlement;
+            this.userCallback = userCallback;
+        }
+
+        @Override
+        protected void onPostExecute(Settlement settlement) {
+            progressDialog.dismiss();
+            super.onPostExecute(settlement);
+            userCallback.Done(settlement);
+        }
+
+        @Override
+        protected Settlement doInBackground(Void... voids) {
+            ArrayList<NameValuePair> dataToSend = new ArrayList<>();
+
+            dataToSend.add(new BasicNameValuePair("partnercode", settlement.partnerCode));
+
+
+            HttpParams httpRequestParams = new BasicHttpParams();
+            HttpConnectionParams.setConnectionTimeout(httpRequestParams, CONNECTION_TIMEOUT);
+            HttpConnectionParams.setSoTimeout(httpRequestParams, CONNECTION_TIMEOUT);
+
+            HttpClient client = new DefaultHttpClient(httpRequestParams);
+            HttpPost post = new HttpPost(SERVER_ADDRESS + "transactionHistory.php");
 
             Log.e("input", dataToSend.toString());
             Log.e("input", post.getURI().toString());

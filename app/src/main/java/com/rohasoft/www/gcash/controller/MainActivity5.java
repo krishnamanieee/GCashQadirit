@@ -1,15 +1,8 @@
-package com.rohasoft.www.gcash.Controler;
+package com.rohasoft.www.gcash.controller;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -20,26 +13,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.rohasoft.www.gcash.DataBase.UserLocalStore;
-import com.rohasoft.www.gcash.Modal.GetUserCallBack;
-import com.rohasoft.www.gcash.Modal.ServerRequest;
-import com.rohasoft.www.gcash.Modal.User;
+import com.rohasoft.www.gcash.modal.dataBase.UserLocalStore;
+import com.rohasoft.www.gcash.modal.GetUserCallBack;
+import com.rohasoft.www.gcash.modal.ServerRequest;
+import com.rohasoft.www.gcash.modal.User;
 import com.rohasoft.www.gcash.R;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
-
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity5 extends AppCompatActivity {
 
     Toolbar mToolbar;
     TextView mTextViewShopName, mTextViewPartnerCard, mTextViewPhone, mTextViewAddress1, mTextViewAddress2, mTextViewCity, mTextViewAmount;
@@ -54,9 +35,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        mToolbar = (Toolbar) findViewById(R.id.app_bar);
-        setSupportActionBar(mToolbar);
+        setContentView(R.layout.fragment_home);
+        //mToolbar = (Toolbar) findViewById(R.id.app_bar);
+       // setSupportActionBar(mToolbar);
         mTextViewShopName = (TextView) findViewById(R.id.shopname_textview);
         mTextViewPartnerCard = (TextView) findViewById(R.id.partner_card_textview);
         mTextViewPhone = (TextView) findViewById(R.id.phone_textview);
@@ -77,15 +58,15 @@ public class MainActivity extends AppCompatActivity {
         mTextViewCity.setText(user.getCity());
         mTextViewAmount.setText(userLocalStore.getamountsshop());
         Log.e("TAG Result", user.getPhone());
-        findViewById(R.id.settlement_history_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent mIntent = new Intent(MainActivity.this, SettlementHistoryActivity.class);
-                mIntent.putExtra("PartnerCode", mTextViewPartnerCard.getText().toString());
-                startActivity(mIntent);
-            }
-        });
+//        findViewById(R.id.settlement_history_btn).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                Intent mIntent = new Intent(MainActivity5.this, SettlementHistoryActivity.class);
+//                mIntent.putExtra("PartnerCode", mTextViewPartnerCard.getText().toString());
+//                startActivity(mIntent);
+//            }
+//        });
         mButtonSettlemrnt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("points from main", settlementAmt + "'");
 
                 User user1 = new User(shop, PartnerCard, settlementAmt);
-                ServerRequest serverRequest = new ServerRequest(MainActivity.this);
+                ServerRequest serverRequest = new ServerRequest(MainActivity5.this);
                 serverRequest.storesettlementInBackground(user1, new GetUserCallBack() {
                     @Override
                     public void Done(User returedUser) {
@@ -146,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_qrcode) {
-            Intent intent = new Intent(MainActivity.this, QRScanActivity.class);
+            Intent intent = new Intent(MainActivity5.this, QRScanActivity.class);
             startActivityForResult(intent, REQUEST_CODE);
             return true;
         }

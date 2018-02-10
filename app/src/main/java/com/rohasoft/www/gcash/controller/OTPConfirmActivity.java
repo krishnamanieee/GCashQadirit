@@ -1,4 +1,4 @@
-package com.rohasoft.www.gcash.Controler;
+package com.rohasoft.www.gcash.controller;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,17 +10,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.rohasoft.www.gcash.DataBase.UserLocalStore;
-import com.rohasoft.www.gcash.Modal.GetUserCallBack;
-import com.rohasoft.www.gcash.Modal.ServerRequest;
-import com.rohasoft.www.gcash.Modal.User;
+import com.rohasoft.www.gcash.modal.dataBase.UserLocalStore;
+import com.rohasoft.www.gcash.modal.GetUserCallBack;
+import com.rohasoft.www.gcash.modal.ServerRequest;
+import com.rohasoft.www.gcash.modal.User;
 import com.rohasoft.www.gcash.R;
 
 /**
  * Created by Ayothi selvam on 12/10/2017.
  */
 
-public class OTPConfrimActivity extends AppCompatActivity {
+public class OTPConfirmActivity extends AppCompatActivity {
 
     EditText mEditTextOTP;
     Button mButtonOTP;
@@ -68,7 +68,7 @@ public class OTPConfrimActivity extends AppCompatActivity {
 
                     //   Toast.makeText(getApplicationContext(), total + "/" + amt, Toast.LENGTH_SHORT).show();
                     User user = new User(card, user1.getPartnerCode(), String.valueOf(invoice),
-                            String.valueOf(amount), String.valueOf(reward), String.valueOf(rewardPoint), String.valueOf(total), shopPoint,phone);
+                            String.valueOf(amount), String.valueOf(reward), String.valueOf(rewardPoint), String.valueOf(total), shopPoint,phone,cusname);
 
 
                     storedata(user);

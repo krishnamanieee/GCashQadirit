@@ -1,10 +1,10 @@
-package com.rohasoft.www.gcash.DataBase;
+package com.rohasoft.www.gcash.modal.dataBase;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.rohasoft.www.gcash.Modal.User;
+import com.rohasoft.www.gcash.modal.User;
 
 
 /**
@@ -50,6 +50,19 @@ public class UserLocalStore {
         return points;
     }
 
+    public void setId(int s) {
+        SharedPreferences.Editor spEditor = userlocalDatabase.edit();
+        spEditor.putInt("id", s);
+
+        spEditor.commit();
+
+    }
+
+    public int getId() {
+        int id = userlocalDatabase.getInt("id", 0);
+        return id;
+    }
+
     public User getLoggedUser() {
         String username = userlocalDatabase.getString("username", "");
         String shop = userlocalDatabase.getString("shop", "");
@@ -64,5 +77,25 @@ public class UserLocalStore {
         User storedUser = new User(shop,amount, partnerCode, phone, address1, address2, city, pincode
                 , username);
         return storedUser;
+    }
+
+    public  void clearUserData(){
+        SharedPreferences.Editor spEditor=userlocalDatabase.edit();
+        spEditor.clear();
+        spEditor.commit();
+    }
+    public void setUserLoggedIn(boolean loggedIn){
+        SharedPreferences.Editor spEditor=userlocalDatabase.edit();
+        spEditor.putBoolean("loggedIn",loggedIn);
+        spEditor.commit();
+    }
+
+    public boolean getUserLoggedIn(){
+        if(userlocalDatabase.getBoolean("loggedIn",false) == true ){
+            return  true;
+        }
+        else {
+            return false;
+        }
     }
 }

@@ -1,6 +1,6 @@
-package com.rohasoft.www.gcash.Modal;
+package com.rohasoft.www.gcash.modal;
 
-import android.util.Log;
+import org.json.JSONObject;
 
 /**
  * Created by Ayothi selvam on 12/7/2017.
@@ -10,27 +10,31 @@ public class User {
 
     String username, password, shop, phone, card, city, name, pincode, id, totallimit, partnerCode, shopId, points;
     String address1, address2;
-    String otp,invoice, amount, tr, reward,rewardPoint;
-    int oldinvoice,partnertToltal,settlementAmt;
+    String otp, invoice, amount, tr, reward, rewardPoint;
+    int oldinvoice, partnertToltal, settlementAmt;
+    JSONObject mJsonObject;
 
-    public User(String partnerCode, String password, String shop, String phone ){
+    public User() {
+    }
+
+    public User(String partnerCode, String password, String shop, String phone) {
         this.partnerCode = partnerCode;
         this.password = password;
         this.shop = shop;
         this.phone = phone;
     }
 
-    public  User(String shop, String partnerCode, int settlementAmt){
+    public User(String shop, String partnerCode, int settlementAmt) {
 
-      this.settlementAmt=settlementAmt;
+        this.settlementAmt = settlementAmt;
         this.shop = shop;
         this.partnerCode = partnerCode;
         this.invoice = "";
         this.amount = "";
-        this.totallimit="";
+        this.totallimit = "";
         this.oldinvoice = 0;
         this.card = "";
-        this.points="";
+        this.points = "";
         this.phone = "";
         this.otp = "";
         this.username = "";
@@ -43,21 +47,21 @@ public class User {
         this.name = "";
         this.pincode = "";
         this.reward = "";
-        this.partnertToltal=partnertToltal;
+        this.partnertToltal = partnertToltal;
 
     }
 
-    public User(String card, String partnerCode, String invoice, String amount, String reward,String rewardPoint,String totallimit,int partnertToltal,String phone) {
+    public User(String card, String partnerCode, String invoice, String amount, String reward, String rewardPoint, String totallimit, int partnertToltal, String phone, String customerName) {
         this.card = card;
         this.partnerCode = partnerCode;
         this.invoice = invoice;
         this.amount = amount;
-        this.totallimit=totallimit;
+        this.totallimit = totallimit;
         this.oldinvoice = 0;
         this.shop = "";
         this.reward = reward;
         this.rewardPoint = rewardPoint;
-        this.points="";
+        this.points = "";
         this.phone = phone;
         this.otp = "";
         this.username = "";
@@ -67,9 +71,9 @@ public class User {
         this.shopId = "";
         this.id = "";
         this.city = "";
-        this.name = "";
+        this.name = customerName;
         this.pincode = "";
-        this.partnertToltal=partnertToltal;
+        this.partnertToltal = partnertToltal;
     }
 
     public User(int oldinvoice) {
@@ -89,11 +93,11 @@ public class User {
         this.name = "";
         this.pincode = "";
         this.partnerCode = "";
-        this.invoice="";
-        this.amount="";
+        this.invoice = "";
+        this.amount = "";
         this.reward = "";
-        this.points="";
-        this.partnertToltal=0;
+        this.points = "";
+        this.partnertToltal = 0;
     }
 
     public User(String shop, String phone, String otp) {
@@ -103,7 +107,7 @@ public class User {
         this.invoice = "";
         this.reward = "";
         this.oldinvoice = 0;
-        this.points="";
+        this.points = "";
         this.username = "";
         this.password = "";
         this.address1 = "";
@@ -116,9 +120,9 @@ public class User {
         this.name = "";
         this.pincode = "";
         this.partnerCode = "";
-        this.invoice="";
-        this.amount="";
-        this.partnertToltal=0;
+        this.invoice = "";
+        this.amount = "";
+        this.partnertToltal = 0;
     }
 
     public User(String username, String password) {
@@ -126,7 +130,7 @@ public class User {
         this.password = password;
         this.otp = "";
         this.shop = "";
-        this.partnertToltal=0;
+        this.partnertToltal = 0;
         this.phone = "";
         this.address1 = "";
         this.address2 = "";
@@ -139,16 +143,16 @@ public class User {
         this.name = "";
         this.pincode = "";
         this.partnerCode = "";
-        this.invoice="";
-        this.points="";
-        this.amount="";
+        this.invoice = "";
+        this.points = "";
+        this.amount = "";
     }
 
     public User(String card) {
         this.card = card;
         this.oldinvoice = 0;
         this.username = "";
-        this.points="";
+        this.points = "";
         this.reward = "";
         this.password = "";
         this.shop = "";
@@ -162,11 +166,11 @@ public class User {
         this.name = "";
         this.pincode = "";
         this.shopId = "";
-        this.username="";
+        this.username = "";
     }
 
-    public  User(String shopName,String amount,String partnerCode,String phoneNo,String address1,String address2,String city,
-                 String pincode, String username){
+    public User(String shopName, String amount, String partnerCode, String phoneNo, String address1, String address2, String city,
+                String pincode, String username) {
         this.id = "";
         this.phone = phoneNo;
         this.card = "";
@@ -174,10 +178,10 @@ public class User {
         this.city = city;
         this.name = "";
         this.pincode = pincode;
-        this.invoice="";
-        this.amount="";
+        this.invoice = "";
+        this.amount = "";
         this.oldinvoice = 0;
-        this.amount=amount;
+        this.amount = amount;
         this.tr = "'";
         this.shopId = "";
         this.password = "";
@@ -187,40 +191,41 @@ public class User {
         this.reward = "";
         this.address1 = address1;
         this.address2 = address2;
-        this.username=username;
-
+        this.username = username;
 
 
     }
-    public User(String id, String name, String card, String phone, String city, String pincode, String totallimit, String reward) {
+
+    public User(String id, String name, String card, String phone, String city, String pincode, String totallimit, JSONObject mJsonObject) {
         this.id = id;
         this.phone = phone;
         this.card = card;
         this.totallimit = totallimit;
         this.city = city;
-        this.reward = reward;
+        this.mJsonObject = mJsonObject;
         this.name = name;
         this.pincode = pincode;
-        this.invoice="";
-        this.amount="'";
+        this.invoice = "";
+        this.amount = "'";
         this.oldinvoice = 0;
-        this.amount="";
+        this.amount = "";
         this.tr = "'";
         this.shopId = "";
-        this.partnertToltal=0;
+        this.partnertToltal = 0;
         this.password = "";
         this.shop = "";
         this.partnerCode = "";
         this.otp = "";
         this.address1 = "";
         this.address2 = "";
-        this.points="";
-        this.username="";
+        this.points = "";
+        this.username = "";
+
 
     }
 
 
-    public User(String id, String name, String card, String phone, String city, String pincode, String totallimit, String invoice, String amount,String tr,String w) {
+    public User(String id, String name, String card, String phone, String city, String pincode, String totallimit, String invoice, String amount, String tr, String w) {
         this.id = id;
         this.phone = phone;
         this.card = card;
@@ -229,9 +234,9 @@ public class User {
         this.reward = "";
         this.name = name;
         this.pincode = pincode;
-        this.invoice=invoice;
-        this.amount=amount;
-        this.amount=amount;
+        this.invoice = invoice;
+        this.amount = amount;
+        this.amount = amount;
         this.tr = tr;
         this.shopId = "";
         this.password = "";
@@ -415,5 +420,13 @@ public class User {
 
     public int getSettlementAmt() {
         return settlementAmt;
+    }
+
+    public JSONObject getmJsonObject() {
+        return mJsonObject;
+    }
+
+    public void setmJsonObject(JSONObject mJsonObject) {
+        this.mJsonObject = mJsonObject;
     }
 }
