@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.rohasoft.www.gcash.Modal.Commons;
 import com.rohasoft.www.gcash.R;
 
 import org.json.JSONArray;
@@ -61,35 +62,21 @@ public class SettlementHistoryAdapter extends BaseAdapter {
 
         try {
             if (mJsonArray.getJSONObject(i).has("date")) {
-//                String strCurrentDate = mJsonArray.getJSONObject(i).getString("date");
-//                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-//                Date newDate = null;
-//                try {
-//                    newDate = format.parse(strCurrentDate);
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                }
-//
-//                format = new SimpleDateFormat("dd-MM-yyyy");
-//                String date = format.format(newDate);
-                mDateTextView.setText(mJsonArray.getJSONObject(i).getString("date"));
+                mDateTextView.setText(Commons.getDate(mJsonArray.getJSONObject(i).getString("date")));
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
         try {
-            if (mJsonArray.getJSONObject(i).has("amount")) {
-                String date = mJsonArray.getJSONObject(i).getString("amount");
-              //  SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
-             //   String output = sdf1.format(date);
-                mAmountTextView.setText(date);
+            if (mJsonArray.getJSONObject(i).has("ponit")) {
+                mAmountTextView.setText(mJsonArray.getJSONObject(i).getString("ponit"));
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
         try {
-            if (mJsonArray.getJSONObject(i).has("paid")) {
-                mPayStatusTextView.setText(mJsonArray.getJSONObject(i).getString("paid"));
+            if (mJsonArray.getJSONObject(i).has("status")) {
+                mPayStatusTextView.setText(mJsonArray.getJSONObject(i).getString("status"));
             }
         } catch (JSONException e) {
             e.printStackTrace();

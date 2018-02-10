@@ -136,6 +136,7 @@ public class CoupenAddActivity extends AppCompatActivity {
                 intent.putExtra("rewardPoint", Integer.valueOf(mEditTextAddPoint.getText().toString().trim()));
                 intent.putExtra("card", mTextViewQrcode.getText().toString());
                 intent.putExtra("cusname", mTextViewName.getText().toString());
+                intent.putExtra("phone", mTextViewPhone.getText().toString());
 
                 startActivity(intent);
 

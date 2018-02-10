@@ -217,8 +217,10 @@ public class ServerRequest {
             dataToSend.add(new BasicNameValuePair("invoice", user.invoice));
             dataToSend.add(new BasicNameValuePair("amount", user.amount));
             dataToSend.add(new BasicNameValuePair("reward", user.reward));
+            dataToSend.add(new BasicNameValuePair("rewardPoint", user.rewardPoint));
             dataToSend.add(new BasicNameValuePair("date", date1));
             dataToSend.add(new BasicNameValuePair("totallimit", user.totallimit));
+            dataToSend.add(new BasicNameValuePair("phone", user.phone));
 
             dataToSend.add(new BasicNameValuePair("partnerttoltal", String.valueOf(user.partnertToltal)));
 
@@ -451,19 +453,6 @@ public class ServerRequest {
                 } else {
 
                     returnedSettlement = new Settlement(jobject.toString(), "", "");
-//                    String shopId = jobject.getString("id");
-//                    String shop = jobject.getString("shop");
-//                    String username = jobject.getString("username");
-//                    String password = jobject.getString("password");
-//                    String phone = jobject.getString("phone");
-//                    String partnerCode = jobject.getString("partnercode");
-//                    String address1 = jobject.getString("address1");
-//                    String address2 = jobject.getString("address2");
-//                    String city = jobject.getString("city");
-//                    String ponits = jobject.getString("point");
-//                    String amount = jobject.getString("amount");
-//                    String pincode = jobject.getString("pincode");
-//                    returnedUser = new User(shop, ponits, amount, partnerCode, phone, address1, address2, city, pincode, username);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

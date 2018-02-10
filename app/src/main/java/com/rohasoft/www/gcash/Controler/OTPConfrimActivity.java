@@ -26,7 +26,7 @@ public class OTPConfrimActivity extends AppCompatActivity {
     Button mButtonOTP;
     int noOtp = 0, total = 0, amount = 0, reward = 0, rewardPoint = 0;
 
-    String card, invoice, cusname;
+    String card, invoice, cusname,phone;
     int shopPoint, old;
 
 
@@ -50,6 +50,7 @@ public class OTPConfrimActivity extends AppCompatActivity {
             card = getIntent().getExtras().getString("card");
             invoice = getIntent().getExtras().getString("invoice");
             cusname = getIntent().getExtras().getString("cusname");
+            phone = getIntent().getExtras().getString("phone");
             //Toast.makeText(getApplicationContext(), "" + card, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Log.e("get OTP", e.toString());
@@ -67,7 +68,7 @@ public class OTPConfrimActivity extends AppCompatActivity {
 
                     //   Toast.makeText(getApplicationContext(), total + "/" + amt, Toast.LENGTH_SHORT).show();
                     User user = new User(card, user1.getPartnerCode(), String.valueOf(invoice),
-                            String.valueOf(amount), String.valueOf(reward), String.valueOf(total), shopPoint);
+                            String.valueOf(amount), String.valueOf(reward), String.valueOf(rewardPoint), String.valueOf(total), shopPoint,phone);
 
 
                     storedata(user);
@@ -93,7 +94,7 @@ public class OTPConfrimActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), SuccessActivity.class);
                 intent.putExtra("cusname", cusname);
                 intent.putExtra("card", card);
-                Log.e("OTP to Success", card + amount);
+               // Log.e("OTP to Success", card + amount);
                 intent.putExtra("invoice", invoice);
                 intent.putExtra("amt", String.valueOf(amount));
                 intent.putExtra("reward", String.valueOf(reward));

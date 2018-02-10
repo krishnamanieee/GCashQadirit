@@ -10,7 +10,7 @@ public class User {
 
     String username, password, shop, phone, card, city, name, pincode, id, totallimit, partnerCode, shopId, points;
     String address1, address2;
-    String otp,invoice, amount, tr, reward;
+    String otp,invoice, amount, tr, reward,rewardPoint;
     int oldinvoice,partnertToltal,settlementAmt;
 
     public User(String partnerCode, String password, String shop, String phone ){
@@ -47,7 +47,7 @@ public class User {
 
     }
 
-    public User(String card, String partnerCode, String invoice, String amount, String reward,String totallimit,int partnertToltal) {
+    public User(String card, String partnerCode, String invoice, String amount, String reward,String rewardPoint,String totallimit,int partnertToltal,String phone) {
         this.card = card;
         this.partnerCode = partnerCode;
         this.invoice = invoice;
@@ -56,8 +56,9 @@ public class User {
         this.oldinvoice = 0;
         this.shop = "";
         this.reward = reward;
+        this.rewardPoint = rewardPoint;
         this.points="";
-        this.phone = "";
+        this.phone = phone;
         this.otp = "";
         this.username = "";
         this.password = "";
