@@ -2,10 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.rohasoft.www.gcash">
 
-
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
-
 
     <application
         android:allowBackup="true"
@@ -14,8 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Controler.activity_splash"
-
+        <activity
+            android:name=".controller.activity_splash"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,18 +22,26 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Controler.MainActivity"
+            android:name=".controller.MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Controler.activity_forgotpassword" />
-        <activity android:name=".Controler.CoupenAddActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".controller.activity_forgotpassword" />
         <activity
-            android:name=".Controler.QRScanActivity"
+            android:name=".controller.CoupenAddActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Controler.LoginActivity" />
-        <activity android:name=".Controler.OTPConfrimActivity"/>
-        <activity android:name=".Controler.SuccessActivity"/>
-        <activity android:name=".Controler.SettlementHistoryActivity"/>
+        <activity
+            android:name=".controller.QRScanActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".controller.LoginActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".controller.OTPConfirmActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".controller.SuccessActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".controller.SettlementHistoryActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

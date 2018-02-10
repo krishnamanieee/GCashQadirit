@@ -1,30 +1,10 @@
-package com.rohasoft.www.gcash.Controler;
+package com.rohasoft.www.gcash.controller;
 
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.zxing.Result;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 

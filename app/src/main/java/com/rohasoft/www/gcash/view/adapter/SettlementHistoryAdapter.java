@@ -7,15 +7,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.rohasoft.www.gcash.Modal.Commons;
+import com.rohasoft.www.gcash.modal.Commons;
 import com.rohasoft.www.gcash.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by krish on 1/24/2018.

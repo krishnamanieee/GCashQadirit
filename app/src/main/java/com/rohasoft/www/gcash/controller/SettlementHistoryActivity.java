@@ -1,18 +1,15 @@
-package com.rohasoft.www.gcash.Controler;
+package com.rohasoft.www.gcash.controller;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.rohasoft.www.gcash.DataBase.UserLocalStore;
-import com.rohasoft.www.gcash.Modal.GetSettlementCallBack;
-import com.rohasoft.www.gcash.Modal.ServerRequest;
-import com.rohasoft.www.gcash.Modal.Settlement;
-import com.rohasoft.www.gcash.Modal.User;
+import com.rohasoft.www.gcash.modal.dataBase.UserLocalStore;
+import com.rohasoft.www.gcash.modal.GetSettlementCallBack;
+import com.rohasoft.www.gcash.modal.ServerRequest;
+import com.rohasoft.www.gcash.modal.Settlement;
+import com.rohasoft.www.gcash.modal.User;
 import com.rohasoft.www.gcash.R;
 import com.rohasoft.www.gcash.view.adapter.SettlementHistoryAdapter;
 
@@ -36,7 +33,7 @@ public class SettlementHistoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settlement_history);
+        setContentView(R.layout.fragment_settlement_history);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

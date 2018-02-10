@@ -1,4 +1,4 @@
-package com.rohasoft.www.gcash.Controler;
+package com.rohasoft.www.gcash.controller;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

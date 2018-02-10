@@ -1,5 +1,6 @@
-package com.rohasoft.www.gcash.Controler;
+package com.rohasoft.www.gcash.controller;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,10 +14,14 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.rohasoft.www.gcash.Modal.GetUserCallBack;
-import com.rohasoft.www.gcash.Modal.ServerRequest;
-import com.rohasoft.www.gcash.Modal.User;
+import com.rohasoft.www.gcash.modal.GetUserCallBack;
+import com.rohasoft.www.gcash.modal.ServerRequest;
+import com.rohasoft.www.gcash.modal.User;
 import com.rohasoft.www.gcash.R;
+import com.rohasoft.www.gcash.modal.dataBase.UserLocalStore;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Random;
 
@@ -33,6 +38,8 @@ public class CoupenAddActivity extends AppCompatActivity {
     int randomNumber, tot = 0, temp = 0, invoice = 0;
     int reward, amount;
     RadioGroup mRadioGroup;
+    Boolean isShopAvailable = false;
+    int id;
 
 
     @Override
@@ -55,9 +62,11 @@ public class CoupenAddActivity extends AppCompatActivity {
             mTextViewQrcode.setText(qrValue);
             Log.e("TAG", qrValue);
         }
-
+        UserLocalStore mUserLocalStore = new UserLocalStore(CoupenAddActivity.this);
+        id = mUserLocalStore.getId();
         final User user = new User(mTextViewQrcode.getText().toString());
         fetchData(user);
+
 
         mTextViewReScan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,7 +135,7 @@ public class CoupenAddActivity extends AppCompatActivity {
             @Override
             public void Done(User returedUser) {
 
-                Intent intent = new Intent(getApplicationContext(), OTPConfrimActivity.class);
+                Intent intent = new Intent(getApplicationContext(), OTPConfirmActivity.class);
                 intent.putExtra("otp", randomNumber);
                 int resultAmt = tot - temp;
                 intent.putExtra("total", resultAmt);
@@ -153,7 +162,7 @@ public class CoupenAddActivity extends AppCompatActivity {
             @Override
             public void Done(User returedUser) {
                 if (returedUser == null) {
-                    showErrorMessage();
+                    showErrorMessage("No Data Found :(");
                 } else {
                     CardIn(returedUser);
                     //  Toast.makeText(getApplicationContext(), "" + returedUser, Toast.LENGTH_SHORT).show();
@@ -171,17 +180,45 @@ public class CoupenAddActivity extends AppCompatActivity {
         mTextViewPincode.setText(returedUser.getPincode());
         mTextViewQrcode.setText(returedUser.getCard());
         tot = Integer.parseInt(returedUser.getTotallimit());
-        reward = Integer.parseInt(returedUser.getReward());
+
+        JSONObject mJsonObject = returedUser.getmJsonObject();
+        if (mJsonObject.has("reward"))
+            try {
+                reward = Integer.parseInt(mJsonObject.getString("reward"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        if (mJsonObject.has("shops")) {
+            try {
+                String[] shop = mJsonObject.getString("shops").split(",");
+                for (int count = 0; count < shop.length; count++) {
+                    if (Integer.parseInt(shop[count]) == id) {
+                        isShopAvailable = true;
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if (!isShopAvailable) {
+            showErrorMessage("Customer Not Under This shop");
+        }
         //  invoice=Integer.parseInt(returedUser.getInvoice());
         //Toast.makeText(getApplicationContext(),returedUser.getInvoice(),Toast.LENGTH_SHORT).show();
     }
 
-    private void showErrorMessage() {
+    private void showErrorMessage(String message) {
 
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(CoupenAddActivity.this);
-        builder.setMessage("No Data Found :(");
-        builder.setPositiveButton("ok", null);
+        builder.setMessage(message);
+        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                finish();
+            }
+        });
         builder.show();
+
 
     }
 
