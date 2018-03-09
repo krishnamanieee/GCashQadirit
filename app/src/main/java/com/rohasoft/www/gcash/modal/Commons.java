@@ -14,6 +14,9 @@ public class Commons {
     public static String getDate(String date) {
         String strDate = "";
         Date date1 = null;
+        if (date.isEmpty()) {
+            return "";
+        }
         try {
             DateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
             date1 = inputFormat.parse(date);
@@ -38,10 +41,12 @@ public class Commons {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-        DateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
-        strDate = outputFormat.format(date1);
-
+        try {
+            DateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+            strDate = outputFormat.format(date1);
+        } catch (Exception e) {
+            return "";
+        }
         return strDate;
     }
 }

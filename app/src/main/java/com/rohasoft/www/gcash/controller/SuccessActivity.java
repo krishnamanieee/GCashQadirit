@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -23,11 +24,9 @@ import java.util.Date;
 
 public class SuccessActivity extends AppCompatActivity {
 
-    TextView mTextViewCustomer,mTextViewCudtomerCard
-            ,mTextViewShopName,mTextViewCard,mTextViewPoint
-            ,mTextViewInvoice,mTextViewDate;
+    TextView mTextViewCustomer, mTextViewCudtomerCard, mTextViewShopName, mTextViewCard, mTextViewPoint, mTextViewInvoice, mTextViewDate;
 
-    String cusname="",card="",amt="",invoive="",ponit="'";
+    String cusname = "", card = "", amt = "", invoive = "", ponit = "'";
     Button mButtonDone;
 
 
@@ -36,43 +35,42 @@ public class SuccessActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_success);
 
-        mTextViewCustomer=(TextView)findViewById(R.id.success_customer_name_textview);
-        mTextViewCudtomerCard=(TextView)findViewById(R.id.success_card_textview);
-        mTextViewShopName=(TextView)findViewById(R.id.success_shop_name_textview);
-        mTextViewCard=(TextView)findViewById(R.id.success_partner_card_no_textview);
-        mTextViewPoint=(TextView)findViewById(R.id.success_point_textview);
-        mTextViewInvoice=(TextView)findViewById(R.id.success_invoice_textview);
-        mTextViewDate=(TextView)findViewById(R.id.success_date_textview);
+        mTextViewCustomer = (TextView) findViewById(R.id.success_customer_name_textview);
+        mTextViewCudtomerCard = (TextView) findViewById(R.id.success_card_textview);
+        mTextViewShopName = (TextView) findViewById(R.id.success_shop_name_textview);
+        mTextViewCard = (TextView) findViewById(R.id.success_partner_card_no_textview);
+        mTextViewPoint = (TextView) findViewById(R.id.success_point_textview);
+        mTextViewInvoice = (TextView) findViewById(R.id.success_invoice_textview);
+        mTextViewDate = (TextView) findViewById(R.id.success_date_textview);
 
-        mButtonDone=(Button)findViewById(R.id.success_done_button);
-
+        mButtonDone = (Button) findViewById(R.id.success_done_button);
 
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         Date date = new Date();
-        String date1=dateFormat.format(date);
+        String date1 = dateFormat.format(date);
 
         try {
             cusname = getIntent().getExtras().getString("cusname");
             card = getIntent().getExtras().getString("card");
             amt = getIntent().getExtras().getString("amt");
             invoive = getIntent().getExtras().getString("invoice");
-            Log.e("'TDG",cusname+card+amt+invoive);
+            Log.e("'TDG", cusname + card + amt + invoive);
 
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
-        TextView mTextView = (TextView ) findViewById(R.id.success_tpoint_textview);
-        UserLocalStore userLocalStore=new UserLocalStore(this);
+        TextView mTextView = (TextView) findViewById(R.id.success_tpoint_textview);
+        UserLocalStore userLocalStore = new UserLocalStore(this);
 
-        User user=userLocalStore.getLoggedUser();
+        User user = userLocalStore.getLoggedUser();
         mTextViewCustomer.setText(cusname);
         mTextViewCudtomerCard.setText(card);
         mTextViewShopName.setText(user.getShop());
         mTextViewCard.setText(user.getPartnerCode());
         mTextViewPoint.setText(amt);
         mTextView.setText("Amount");
-        if (Integer.parseInt(amt) == 0){
+        if (Integer.parseInt(amt) == 0) {
             mTextViewPoint.setText(getIntent().getExtras().getString("rewardPoint"));
 
             mTextView.setText("Reward");
@@ -82,12 +80,19 @@ public class SuccessActivity extends AppCompatActivity {
         mButtonDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
             }
         });
     }
+
     @Override
     public void onBackPressed() {
+        startActivity(new Intent(SuccessActivity.this, MainActivity.class));
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        startActivity(new Intent(SuccessActivity.this, MainActivity.class));
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -135,11 +135,14 @@ public class CoupenAddActivity extends AppCompatActivity {
             @Override
             public void Done(User returedUser) {
 
+                Random r = new Random();
+                int randomInvoice = r.nextInt(9999999);
+
                 Intent intent = new Intent(getApplicationContext(), OTPConfirmActivity.class);
                 intent.putExtra("otp", randomNumber);
                 int resultAmt = tot - temp;
                 intent.putExtra("total", resultAmt);
-                intent.putExtra("invoice",/* mEditTextInvoice.getText().toString()*/ "12");
+                intent.putExtra("invoice",/* mEditTextInvoice.getText().toString()*/ String.valueOf(randomInvoice));
                 intent.putExtra("amount", amount);
                 intent.putExtra("reward", Integer.valueOf(reward));
                 intent.putExtra("rewardPoint", Integer.valueOf(mEditTextAddPoint.getText().toString().trim()));
@@ -211,6 +214,7 @@ public class CoupenAddActivity extends AppCompatActivity {
 
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(CoupenAddActivity.this);
         builder.setMessage(message);
+        builder.setCancelable(false);
         builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
