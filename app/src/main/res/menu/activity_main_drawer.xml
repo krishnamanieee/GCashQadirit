@@ -15,6 +15,10 @@
             android:id="@+id/nav_settlement"
             android:icon="@drawable/settlement_history"
             android:title="@string/nav_settlement" />
+        <item
+            android:id="@+id/nav_chnagePassword"
+            android:icon="@drawable/ic_lock_outline_black_24dp"
+            android:title="@string/nav_change_password" />
 
         <item
             android:id="@+id/nav_logout"

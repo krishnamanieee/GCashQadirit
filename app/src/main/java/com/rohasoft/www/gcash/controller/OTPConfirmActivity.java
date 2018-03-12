@@ -26,7 +26,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
     Button mButtonOTP;
     int noOtp = 0, total = 0, amount = 0, reward = 0, rewardPoint = 0;
 
-    String card, invoice, cusname,phone;
+    String card, invoice, cusname, phone;
     int shopPoint, old;
 
 
@@ -68,9 +68,7 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
                     //   Toast.makeText(getApplicationContext(), total + "/" + amt, Toast.LENGTH_SHORT).show();
                     User user = new User(card, user1.getPartnerCode(), String.valueOf(invoice),
-                            String.valueOf(amount), String.valueOf(reward), String.valueOf(rewardPoint), String.valueOf(total), shopPoint,phone,cusname);
-
-
+                            String.valueOf(amount), String.valueOf(reward), String.valueOf(rewardPoint), String.valueOf(total), shopPoint, phone, cusname);
                     storedata(user);
 
                 }
@@ -90,12 +88,16 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
 
                 userLocalStore.storeamount(String.valueOf(shopPoint));
+                String invoic="";
+                if (returedUser.getCard() != null) {
+                    invoic = returedUser.getCard();
+                }
 
                 Intent intent = new Intent(getApplicationContext(), SuccessActivity.class);
                 intent.putExtra("cusname", cusname);
                 intent.putExtra("card", card);
-               // Log.e("OTP to Success", card + amount);
-                intent.putExtra("invoice", invoice);
+                // Log.e("OTP to Success", card + amount);
+                intent.putExtra("invoice", invoic);
                 intent.putExtra("amt", String.valueOf(amount));
                 intent.putExtra("reward", String.valueOf(reward));
                 intent.putExtra("rewardPoint", String.valueOf(rewardPoint));
@@ -112,7 +114,6 @@ public class OTPConfirmActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        onBackPressed();
         if (back_pressed + TIME_DELAY > System.currentTimeMillis()) {
             Intent intent = new Intent(Intent.ACTION_MAIN);
             intent.addCategory(Intent.CATEGORY_HOME);

@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.rohasoft.www.gcash.R;
 import com.rohasoft.www.gcash.controller.CoupenAddActivity;
+import com.rohasoft.www.gcash.controller.MainActivity;
 import com.rohasoft.www.gcash.controller.MainActivity5;
 import com.rohasoft.www.gcash.controller.SettlementHistoryActivity;
 import com.rohasoft.www.gcash.modal.GetUserCallBack;
@@ -73,24 +74,34 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                String shop = mTextViewShopName.getText().toString();
-                String PartnerCard = mTextViewPartnerCard.getText().toString();
-                int settlementAmt = Integer.parseInt(mTextViewAmount.getText().toString());
+                final String shop = mTextViewShopName.getText().toString();
+                final String PartnerCard = mTextViewPartnerCard.getText().toString();
+                final int settlementAmt = Integer.parseInt(mTextViewAmount.getText().toString());
                 if (settlementAmt != 0) {
                     Log.e("points from main", settlementAmt + "'");
 
-                    User user1 = new User(shop, PartnerCard, settlementAmt);
-                    ServerRequest serverRequest = new ServerRequest(getActivity());
-                    serverRequest.storesettlementInBackground(user1, new GetUserCallBack() {
+                    final User user1 = new User(shop, PartnerCard, settlementAmt);
+                    android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
+                    builder.setMessage("Due want to apply Settlement");
+                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
-                        public void Done(User returedUser) {
+                        public void onClick(DialogInterface dialogInterface, int i) {
 
-                            userLocalStore.storeamount("0");
-                            mTextViewAmount.setText("0");
-                            //  Toast.makeText(getApplicationContext(),userLocalStore.getPointsshop(),Toast.LENGTH_SHORT).show();
+                            ServerRequest serverRequest = new ServerRequest(getActivity());
+                            serverRequest.storesettlementInBackground(user1, new GetUserCallBack() {
+                                @Override
+                                public void Done(User returedUser) {
+                                    userLocalStore.storeamount("0");
+                                    mTextViewAmount.setText("0");
+                                    //  Toast.makeText(getApplicationContext(),userLocalStore.getPointsshop(),Toast.LENGTH_SHORT).show();
 
+                                }
+                            });
                         }
                     });
+                    builder.setNegativeButton("No",null);
+                    builder.setCancelable(false);
+                    builder.show();
                 } else {
 
                     android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
@@ -113,4 +124,24 @@ public class HomeFragment extends Fragment {
 
         return v;
     }
+
+    private void showErrorMessage(String message,final Boolean isTrue) {
+
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
+        builder.setMessage(message);
+        builder.setCancelable(false);
+        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (isTrue){
+
+                }
+            }
+        });
+        builder.setNegativeButton("No",null);
+        builder.show();
+
+
+    }
+
 }

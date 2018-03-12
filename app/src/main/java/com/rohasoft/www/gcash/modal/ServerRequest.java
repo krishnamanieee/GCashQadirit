@@ -64,17 +64,25 @@ public class ServerRequest {
         progressDialog.show();
         new FetchCardDataAsyncTask(user, callBack).execute();
     }
+
     public void sendOtpInBackground(User user, GetUserCallBack callBack) {
         progressDialog.show();
         new sendOtpAsyncTask(user, callBack).execute();
     }
+
     public void settlementhistoryBackground(User settlement, GetSettlementCallBack callBack) {
         progressDialog.show();
         new settlementhistoryAsyncTask(settlement, callBack).execute();
     }
+
     public void transactionHistoryBackground(User settlement, GetSettlementCallBack callBack) {
         progressDialog.show();
         new transactionHistoryAsyncTask(settlement, callBack).execute();
+    }
+
+    public void chnagePasswordBackground(Settlement settlement, GetSettlementCallBack callBack) {
+        progressDialog.show();
+        new chnagePasswordAsyncTask(settlement, callBack).execute();
     }
 
     private class FetchCardDataAsyncTask extends AsyncTask<Void, Void, User> {
@@ -249,12 +257,12 @@ public class ServerRequest {
 
                 String result = EntityUtils.toString(entity);
                 Log.e("repansone", result);
-                JSONObject jobject = new JSONObject(result);
+               // JSONObject jobject = new JSONObject(result);
 
-                if (jobject.length() == 0) {
+                if (result.length() == 0) {
                     returnedUser = null;
                 } else {
-                    returnedUser = new User(user.partnerCode);
+                    returnedUser = new User(result);
 
 
                 }
@@ -381,7 +389,7 @@ public class ServerRequest {
                 if (jobject.length() == 0) {
                     returnedUser = null;
                 } else {
-                    UserLocalStore mUserLocalStore=new UserLocalStore(mContext);
+                    UserLocalStore mUserLocalStore = new UserLocalStore(mContext);
                     mUserLocalStore.setId(Integer.parseInt(jobject.getString("id")));
                     String shopId = jobject.getString("id");
                     String shop = jobject.getString("shop");
@@ -471,6 +479,7 @@ public class ServerRequest {
 
 
     }
+
     private class transactionHistoryAsyncTask extends AsyncTask<Void, Void, Settlement> {
         User settlement;
         GetSettlementCallBack userCallback;
@@ -501,6 +510,68 @@ public class ServerRequest {
 
             HttpClient client = new DefaultHttpClient(httpRequestParams);
             HttpPost post = new HttpPost(SERVER_ADDRESS + "transactionHistory.php");
+
+            Log.e("input", dataToSend.toString());
+            Log.e("input", post.getURI().toString());
+            Settlement returnedSettlement = null;
+
+            try {
+                post.setEntity(new UrlEncodedFormEntity(dataToSend));
+                HttpResponse httpResponse = client.execute(post);
+
+                HttpEntity entity = httpResponse.getEntity();
+                String result = EntityUtils.toString(entity);
+                Log.e("Response", result);
+
+                JSONObject jobject = new JSONObject(result);
+
+                if (jobject.length() == 0) {
+                    returnedSettlement = null;
+                } else {
+
+                    returnedSettlement = new Settlement(jobject.toString(), "", "");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return returnedSettlement;
+        }
+
+
+    }
+
+    private class chnagePasswordAsyncTask extends AsyncTask<Void, Void, Settlement> {
+        Settlement settlement;
+        GetSettlementCallBack userCallback;
+
+        public chnagePasswordAsyncTask(Settlement settlement, GetSettlementCallBack userCallback) {
+
+            this.settlement = settlement;
+            this.userCallback = userCallback;
+        }
+
+        @Override
+        protected void onPostExecute(Settlement settlement) {
+            progressDialog.dismiss();
+            super.onPostExecute(settlement);
+            userCallback.Done(settlement);
+        }
+
+        @Override
+        protected Settlement doInBackground(Void... voids) {
+            ArrayList<NameValuePair> dataToSend = new ArrayList<>();
+
+            dataToSend.add(new BasicNameValuePair("partnercode", settlement.partnerCode));
+            dataToSend.add(new BasicNameValuePair("password", settlement.password));
+
+
+            HttpParams httpRequestParams = new BasicHttpParams();
+            HttpConnectionParams.setConnectionTimeout(httpRequestParams, CONNECTION_TIMEOUT);
+            HttpConnectionParams.setSoTimeout(httpRequestParams, CONNECTION_TIMEOUT);
+
+            HttpClient client = new DefaultHttpClient(httpRequestParams);
+            HttpPost post = new HttpPost(SERVER_ADDRESS + "changePassword.php");
 
             Log.e("input", dataToSend.toString());
             Log.e("input", post.getURI().toString());

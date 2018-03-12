@@ -1,6 +1,7 @@
 package com.rohasoft.www.gcash.controller;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.rohasoft.www.gcash.controller.fragment.ChnagePasswordFragment;
 import com.rohasoft.www.gcash.controller.fragment.HomeFragment;
 import com.rohasoft.www.gcash.controller.fragment.SettlementHistoryFragment;
 import com.rohasoft.www.gcash.controller.fragment.TransactionHistoryFragment;
@@ -60,6 +62,7 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG_HOME = "home";
     private static final String TAG_COLLECT = "Collect Loan";
     private static final String TAG_NEWLOAN = "New Loan";
+    private static final String TAG_CHANGEPASSWORD = "Change Password";
     private static final String TAG_NEWCUSTOMER = "New Customer";
     private static final String TAG_EXISTINGCUSTOMER = "Existing Customer";
     public static String CURRENT_TAG = TAG_HOME;
@@ -220,6 +223,10 @@ public class MainActivity extends AppCompatActivity
                 // Settlement History
                 SettlementHistoryFragment mSettlementHistoryFragment = new SettlementHistoryFragment();
                 return mSettlementHistoryFragment;
+            case 3:
+                // Change Password
+                ChnagePasswordFragment mChangePassword = new ChnagePasswordFragment();
+                return mChangePassword;
             default:
                 return new HomeFragment();
         }
@@ -257,6 +264,11 @@ public class MainActivity extends AppCompatActivity
                     case R.id.nav_settlement:
                         navItemIndex = 2;
                         CURRENT_TAG = TAG_NEWLOAN;
+                        getSupportActionBar().show();
+                        break;
+                    case R.id.nav_chnagePassword:
+                        navItemIndex = 3;
+                        CURRENT_TAG = TAG_CHANGEPASSWORD;
                         getSupportActionBar().show();
                         break;
                     case R.id.nav_logout:
@@ -372,15 +384,15 @@ public class MainActivity extends AppCompatActivity
 
         // user is in notifications fragment
         // and selected 'Mark all as Read'
-        if (id == R.id.action_mark_all_read) {
-            Toast.makeText(getApplicationContext(), "All notifications marked as read!", Toast.LENGTH_LONG).show();
-        }
-
-        // user is in notifications fragment
-        // and selected 'Clear All'
-        if (id == R.id.action_clear_notifications) {
-            Toast.makeText(getApplicationContext(), "Clear all notifications!", Toast.LENGTH_LONG).show();
-        }
+//        if (id == R.id.action_mark_all_read) {
+//            Toast.makeText(getApplicationContext(), "All notifications marked as read!", Toast.LENGTH_LONG).show();
+//        }
+//
+//        // user is in notifications fragment
+//        // and selected 'Clear All'
+//        if (id == R.id.action_clear_notifications) {
+//            Toast.makeText(getApplicationContext(), "Clear all notifications!", Toast.LENGTH_LONG).show();
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -448,6 +460,5 @@ public class MainActivity extends AppCompatActivity
     public void displayUserData(){
         User user=userLocalstore.getLoggedInUser();
     }*/
-
 
 }
